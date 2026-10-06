@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aditya Dahake — Robotics &amp; Automation | Autonomous Navigation &amp; SLAM</title>
+  <meta name="description" content="Portfolio of Aditya Dahake. Robotics engineering student building toward humanoids, with autonomous navigation, ROS 2, and SLAM as a proven foundation." />
+  <meta name="author" content="Aditya Dahake" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://adityadahake18.github.io/" />
+  <meta property="og:title" content="Aditya Dahake — Robotics &amp; Automation" />
+  <meta property="og:description" content="Robotics engineering student building toward humanoids, with autonomous navigation and SLAM as a proven foundation." />
+  <meta property="og:image" content="assets/images/humanoid-poster.webp" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://adityadahake18.github.io/" />
+  <meta name="twitter:title" content="Aditya Dahake — Robotics &amp; Automation" />
+  <meta name="twitter:description" content="Robotics engineering student building toward humanoids, with autonomous navigation and SLAM as a proven foundation." />
+  <meta name="twitter:image" content="assets/images/humanoid-poster.webp" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- Web Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Vendor Libraries (Locally Hosted for Zero-Latency & Reliability) -->
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/vendor/GLTFLoader.js"></script>
+  <script src="js/vendor/DRACOLoader.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
+  <script src="js/vendor/ScrollTrigger.min.js"></script>
+  <script src="js/vendor/lenis.min.js"></script>
+</head>
+<body class="theme-dark">
+
+  <!-- Top Scroll Reading Progress Indicator -->
+  <div class="scroll-progress-line" id="scroll-progress-line" aria-hidden="true"></div>
+
+  <!-- Accessible Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- Line-Draw Preloader (Max 1.2s, Skippable) -->
+  <aside id="preloader" class="preloader" aria-label="Page loading">
+    <div class="preloader-inner">
+      <svg class="preloader-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle class="draw-path circle-outer" cx="50" cy="50" r="42" stroke="#00E5FF" stroke-width="2" stroke-dasharray="270" stroke-dashoffset="270" />
+        <circle class="draw-path circle-inner" cx="50" cy="50" r="18" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="120" stroke-dashoffset="120" />
+        <line class="draw-path line-v" x1="50" y1="8" x2="50" y2="32" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
+        <line class="draw-path line-v2" x1="50" y1="68" x2="50" y2="92" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
+        <line class="draw-path line-h" x1="8" y1="50" x2="32" y2="50" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
+        <line class="draw-path line-h2" x1="68" y1="50" x2="92" y2="50" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
+      </svg>
+      <div class="preloader-meta">
+        <span class="preloader-name">ADITYA DAHAKE</span>
+        <span class="preloader-sub">ROBOTICS &amp; AUTOMATION</span>
+      </div>
+      <button id="skip-preloader" class="skip-preloader-btn" aria-label="Skip intro animation">Skip intro &rarr;</button>
+    </div>
+  </aside>
+
+  <!-- Non-Distracting Desktop Cursor -->
+  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+  </div>
+
+  <!-- Global Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="#hero" class="brand-link" aria-label="Aditya Dahake - Return to top">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke-opacity="0.4" />
+          <circle cx="12" cy="12" r="3.5" fill="#00E5FF" stroke="none" />
+          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="#00E5FF" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+        <span class="brand-name">Aditya Dahake</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#skills" class="nav-link">Skills</a>
+        <a href="#next" class="nav-link">Next</a>
+        <a href="#contact" class="nav-link nav-cta">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Viewport Split Container -->
+  <div class="viewport-split">
+
+    <!-- RIGHT/TOP: Fixed (Desktop) & Sticky (Mobile) 3D Humanoid Stage -->
+    <div class="stage-wrap" id="stage-wrap" aria-label="Interactive 3D Humanoid Robot Display">
+      <canvas id="stage-canvas"></canvas>
+      <img id="stage-fallback" class="stage-fallback-img" src="assets/images/humanoid-poster.webp" alt="3D Humanoid Robot Model" />
+
+      <!-- Interactive 3D Motion HUD & Animation Switcher -->
+      <div class="stage-hud" id="stage-hud" aria-label="Humanoid Motion Controller">
+        <div class="hud-header">
+          <span class="hud-status-dot"></span>
+          <span class="hud-title">HUMANOID TELEMETRY</span>
+          <span class="hud-badge" id="hud-anim-badge">IDLE</span>
+        </div>
+        <div class="hud-controls" role="toolbar" aria-label="Robot Animation Switcher">
+          <button class="hud-btn active" data-anim="idle" aria-label="Switch to idle stance" title="Natural Breathing Stance">
+            <span class="hud-btn-icon">⏵</span>
+            <span class="hud-btn-text">Idle</span>
+          </button>
+          <button class="hud-btn" data-anim="walk" aria-label="Switch to walking gait" title="Autonomous Navigation Gait">
+            <span class="hud-btn-icon">🚶</span>
+            <span class="hud-btn-text">Walk</span>
+          </button>
+          <button class="hud-btn" data-anim="run" aria-label="Switch to running sprint" title="Dynamic Velocity Sprint">
+            <span class="hud-btn-icon">⚡</span>
+            <span class="hud-btn-text">Run</span>
+          </button>
+          <button class="hud-btn" data-anim="agree" aria-label="Switch to nodding gesture" title="Attentive Nod Gesture">
+            <span class="hud-btn-icon">👋</span>
+            <span class="hud-btn-text">Nod</span>
+          </button>
+          <button class="hud-btn" data-anim="sneak_pose" aria-label="Switch to scan pose" title="Perception Scan Stance">
+            <span class="hud-btn-icon">🎯</span>
+            <span class="hud-btn-text">Scan</span>
+          </button>
+          <button class="hud-btn" data-anim="headShake" aria-label="Switch to sensor radar sweep" title="Sensor Sweep Scan">
+            <span class="hud-btn-icon">📡</span>
+            <span class="hud-btn-text">Radar</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive drag / revolve hint -->
+      <div class="stage-overlay" id="stage-overlay" aria-hidden="true">
+        <div class="drag-badge">
+          <span class="badge-icon">↺</span>
+          <span class="badge-text">Drag to rotate humanoid 360°</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LEFT: Frosted-Glass Dark Content Panel (WCAG AAA >= 7:1 Contrast) -->
+    <main class="content-scroll-container" id="main-content">
+
+      <!-- ================= 01 HERO ================= -->
+      <section class="content-section" id="hero" aria-labelledby="hero-title">
+        <div class="content-panel hero-panel">
+          <div class="kicker-badge">
+            <span class="kicker-pulse"></span>
+            <span class="kicker-text">Robotics Engineering Student &bull; R&amp;D Intern</span>
+          </div>
+
+          <h1 class="hero-title" id="hero-title">
+            Aditya Dahake
+          </h1>
+
+          <div class="hero-rotating-line" aria-live="polite">
+            <span class="rotating-prefix">Focus: </span>
+            <span class="rotating-track" id="rotating-track">Autonomous Navigation</span>
+          </div>
+
+          <p class="hero-mission">
+            Robotics engineer building toward humanoids, with navigation and SLAM as a proven foundation.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">
+              <span>View Projects</span>
+              <span class="btn-arrow">&rarr;</span>
+            </a>
+            <a href="#contact" class="btn btn-secondary">
+              <span>Contact</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 02 ABOUT ================= -->
+      <section class="content-section" id="about" aria-labelledby="about-heading">
+        <div class="content-panel">
+          <div class="section-label">01 / Profile</div>
+          <h2 class="section-heading" id="about-heading">About Me</h2>
+
+          <!-- Max 60 words concise summary -->
+          <p class="section-summary">
+            Robotics and automation engineering student focused on autonomous navigation, SLAM, and mobile robotics. My work spans ROS 2 pipelines, sensor integration, and embedded mechatronics. I use navigation and state estimation as a proven foundation to build toward advanced humanoid robotics and aerial systems.
+          </p>
+
+          <!-- Interactive Sliding Profile Spec Deck (Non-boxy fluid switcher) -->
+          <div class="sliding-profile-deck">
+            <div class="deck-nav" role="tablist" aria-label="Profile dimensions">
+              <button class="deck-tab active" role="tab" aria-selected="true" data-deck="discipline">
+                <span class="tab-dot"></span>
+                <span>Core Discipline</span>
+              </button>
+              <button class="deck-tab" role="tab" aria-selected="false" data-deck="trajectory">
+                <span class="tab-dot"></span>
+                <span>System Trajectory</span>
+              </button>
+              <button class="deck-tab" role="tab" aria-selected="false" data-deck="stack">
+                <span class="tab-dot"></span>
+                <span>Core Telemetry</span>
+              </button>
+            </div>
+
+            <div class="deck-panels-viewport">
+              <!-- Panel 1: Core Discipline -->
+              <div class="deck-slide active" id="deck-discipline" role="tabpanel">
+                <div class="deck-spec-header">
+                  <span class="spec-category">PERCEPTION &bull; CONTROL</span>
+                  <span class="spec-status">Deterministic State Estimation</span>
+                </div>
+                <p class="deck-text">
+                  Specializing in deterministic state estimation, ROS 2 Humble node architecture, Nav2 behavior trees, and physical mechatronics bring-up with zero hand-waving.
+                </p>
+                <div class="deck-tech-tags">
+                  <span class="tech-chip">ROS 2 Humble</span>
+                  <span class="tech-chip">Nav2 Behavior Trees</span>
+                  <span class="tech-chip">SLAM Toolbox</span>
+                  <span class="tech-chip">C++17 Architecture</span>
+                </div>
+              </div>
+
+              <!-- Panel 2: System Trajectory -->
+              <div class="deck-slide" id="deck-trajectory" role="tabpanel">
+                <div class="deck-spec-header">
+                  <span class="spec-category">EXPANSION PATH</span>
+                  <span class="spec-status">Planar &rarr; Bipedal &rarr; Aerial</span>
+                </div>
+                <p class="deck-text">
+                  Extending proven planar navigation and spatial perception principles to dynamic multi-limbed humanoid locomotion and aerial drone autonomy.
+                </p>
+                <div class="deck-tech-tags">
+                  <span class="tech-chip">Humanoid Kinematics</span>
+                  <span class="tech-chip">Aerial Flight Dynamics</span>
+                  <span class="tech-chip">3D LiDAR Perception</span>
+                  <span class="tech-chip">Multi-Sensor Odometry</span>
+                </div>
+              </div>
+
+              <!-- Panel 3: Operational Telemetry -->
+              <div class="deck-slide" id="deck-stack" role="tabpanel">
+                <div class="deck-telemetry-stream">
+                  <div class="tel-stream-row">
+                    <div class="tel-stream-meta">
+                      <span class="tel-stream-bullet"></span>
+                      <span class="tel-label">PRIMARY PLATFORM</span>
+                    </div>
+                    <span class="tel-val">Linux / ROS 2 Humble</span>
+                  </div>
+                  <div class="tel-stream-row">
+                    <div class="tel-stream-meta">
+                      <span class="tel-stream-bullet"></span>
+                      <span class="tel-label">ACTIVE ROLE</span>
+                    </div>
+                    <span class="tel-val">R&amp;D Robotics Intern</span>
+                  </div>
+                  <div class="tel-stream-row">
+                    <div class="tel-stream-meta">
+                      <span class="tel-stream-bullet"></span>
+                      <span class="tel-label">CORE DOMAIN</span>
+                    </div>
+                    <span class="tel-val">Autonomous Nav &amp; SLAM</span>
+                  </div>
+                  <div class="tel-stream-row">
+                    <div class="tel-stream-meta">
+                      <span class="tel-stream-bullet"></span>
+                      <span class="tel-label">SIM VALIDATION</span>
+                    </div>
+                    <span class="tel-val">Gazebo &amp; RViz2 60 FPS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 03 PROJECTS ================= -->
+      <section class="content-section" id="projects" aria-labelledby="projects-heading">
+        <div class="content-panel">
+          <div class="section-header-row">
+            <div>
+              <div class="section-label">02 / Engineering Work</div>
+              <h2 class="section-heading" id="projects-heading">Featured Projects</h2>
+            </div>
+            <!-- Horizontal gallery buttons -->
+            <div class="gallery-controls" aria-label="Projects carousel controls">
+              <button id="gallery-prev" class="gallery-btn" aria-label="Previous project">&larr;</button>
+              <span id="gallery-counter" class="gallery-counter" aria-live="polite">01 / 04</span>
+              <button id="gallery-next" class="gallery-btn" aria-label="Next project">&rarr;</button>
+            </div>
+          </div>
+
+          <p class="section-summary">
+            Practical robotics implementations spanning autonomous mobile navigation, multi-legged locomotion, embedded AI cognition, and 3D LiDAR bring-up. Tested from high-fidelity Gazebo simulation to physical embedded platforms.
+          </p>
+
+          <!-- Horizontal Slide Gallery (Scroll-snap, Drag, Keyboard Navigation) -->
+          <div class="projects-gallery" id="projects-gallery" tabindex="0" role="region" aria-label="Projects slide gallery">
+            
+            <!-- Project 1: Full Sim Navigation Stack -->
+            <article class="project-card" data-index="1">
+              <div class="project-media-wrap">
+                <img src="assets/projects/nav-stack.webp" alt="Simulation Navigation Stack in Gazebo and RViz2" class="project-media" loading="lazy" />
+                <span class="project-badge">Simulation &bull; Moving to Hardware</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Full Sim Navigation Stack</h3>
+                <div class="project-meta-list">
+                  <div class="meta-item"><span class="meta-label">Role:</span> Navigation &amp; SLAM Architecture</div>
+                  <div class="meta-item"><span class="meta-label">Stack:</span> ROS 2 Humble, Nav2, SLAM Toolbox, Gazebo, RViz, URDF/Xacro</div>
+                  <div class="meta-item"><span class="meta-label">Outcome:</span> Fully autonomous waypoint navigation, dynamic costmap generation, and obstacle avoidance validated in sim; currently transitioning to physical base.</div>
+                </div>
+
+                <div class="fill-callout">
+                  <span class="fill-tag">[FILL]</span>
+                  <span>Simulation demo video / screenshot and physical base details.</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="read-more-btn" aria-expanded="false" aria-controls="p1-details">
+                    <span class="rm-text">Read technical details</span>
+                    <span class="rm-icon">+</span>
+                  </button>
+                  <div class="project-repo-link">
+                    <span class="fill-pill">[FILL: Code upon request]</span>
+                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
+                  </div>
+                </div>
+
+                <div id="p1-details" class="read-more-content" hidden>
+                  <p>
+                    Engineered complete robot description package with modular URDF and Xacro transmission macros. Configured Nav2 stack using Behavior Tree navigator with recovery plugins for dynamic obstacle avoidance. Configured SLAM Toolbox for online synchronous mapping and loop-closure optimization.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 2: Hexapod -->
+            <article class="project-card" data-index="2">
+              <div class="project-media-wrap">
+                <img src="assets/projects/hexapod.webp" alt="18-DOF Legged Hexapod Robot" class="project-media" loading="lazy" />
+                <span class="project-badge">18-DOF Legged Machine</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">18-DOF Legged Hexapod</h3>
+                <div class="project-meta-list">
+                  <div class="meta-item"><span class="meta-label">Role:</span> Kinematics &amp; Locomotion</div>
+                  <div class="meta-item"><span class="meta-label">Stack:</span> Inverse Kinematics, Gait Sequencing, Servo Control, C++</div>
+                  <div class="meta-item"><span class="meta-label">Outcome:</span> 18-DOF hexapod platform executing tripod and wave gait algorithms for stable omnidirectional locomotion across uneven surfaces.</div>
+                </div>
+
+                <div class="fill-callout">
+                  <span class="fill-tag">[FILL]</span>
+                  <span>Hexapod walking video, leg assembly photos, and controller specs.</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="read-more-btn" aria-expanded="false" aria-controls="p2-details">
+                    <span class="rm-text">Read technical details</span>
+                    <span class="rm-icon">+</span>
+                  </button>
+                  <div class="project-repo-link">
+                    <span class="fill-pill">[FILL: Code upon request]</span>
+                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
+                  </div>
+                </div>
+
+                <div id="p2-details" class="read-more-content" hidden>
+                  <p>
+                    Developed analytical 3-DOF inverse kinematics for each leg limb. Implemented periodic gait sequencers to maintain static stability margins and support polygon integrity during body translations and pitch/roll tilt adjustments.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 3: EMO-Style Desktop Robot -->
+            <article class="project-card" data-index="3">
+              <div class="project-media-wrap">
+                <img src="assets/projects/emo-robot.webp" alt="EMO-style Desktop Robot with 1.3 inch display" class="project-media" loading="lazy" />
+                <span class="project-badge">Embedded Mechatronics &amp; AI</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">EMO-Style Desktop Robot</h3>
+                <div class="project-meta-list">
+                  <div class="meta-item"><span class="meta-label">Role:</span> Embedded AI &amp; Interaction Architecture</div>
+                  <div class="meta-item"><span class="meta-label">Stack:</span> ESP32, ESP-SR (Wake Word), Cloud STT/LLM, 1.3&Prime; Display, NVS</div>
+                  <div class="meta-item"><span class="meta-label">Outcome:</span> Hybrid cognitive companion with offline wake-word detection, cloud LLM conversation pipeline, persistent mood state in NVS, and non-blocking 60fps render loop.</div>
+                </div>
+
+                <div class="fill-callout">
+                  <span class="fill-tag">[FILL]</span>
+                  <span>Desktop robot photos and conversational interaction video.</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="read-more-btn" aria-expanded="false" aria-controls="p3-details">
+                    <span class="rm-text">Read technical details</span>
+                    <span class="rm-icon">+</span>
+                  </button>
+                  <div class="project-repo-link">
+                    <span class="fill-pill">[FILL: Code upon request]</span>
+                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
+                  </div>
+                </div>
+
+                <div id="p3-details" class="read-more-content" hidden>
+                  <p>
+                    Architected dual-core task scheduling: Core 0 dedicated to real-time audio sampling, I2S microphone processing, and ESP-SR wake-word inference; Core 1 drives the 1.3&Prime; SPI display animation engine, emotion state transitions stored in Non-Volatile Storage (NVS), and Wi-Fi streaming.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Project 4: Livox Mid-360S Bring-up -->
+            <article class="project-card" data-index="4">
+              <div class="project-media-wrap">
+                <img src="assets/projects/livox-lidar.webp" alt="Livox Mid-360S Point Cloud in RViz2" class="project-media" loading="lazy" />
+                <span class="project-badge">3D Perception Sensor Bring-up</span>
+              </div>
+              <div class="project-body">
+                <h3 class="project-title">Livox Mid-360S ROS 2 Bring-Up</h3>
+                <div class="project-meta-list">
+                  <div class="meta-item"><span class="meta-label">Role:</span> Sensor Driver Integration &amp; Telemetry</div>
+                  <div class="meta-item"><span class="meta-label">Stack:</span> ROS 2 Humble, Livox-SDK2, livox_ros_driver2, Ubuntu 22.04</div>
+                  <div class="meta-item"><span class="meta-label">Outcome:</span> Verified high-frequency point clouds on <code>/livox/lidar</code> and synchronized 6-axis inertial telemetry on <code>/livox/imu</code> with zero packet drop.</div>
+                </div>
+
+                <div class="fill-callout">
+                  <span class="fill-tag">[FILL]</span>
+                  <span>High-resolution RViz point cloud screenshot from your sensor bring-up session.</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="read-more-btn" aria-expanded="false" aria-controls="p4-details">
+                    <span class="rm-text">Read technical details</span>
+                    <span class="rm-icon">+</span>
+                  </button>
+                  <div class="project-repo-link">
+                    <span class="fill-pill">[FILL: Code upon request]</span>
+                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
+                  </div>
+                </div>
+
+                <div id="p4-details" class="read-more-content" hidden>
+                  <p>
+                    Configured static IP Ethernet interface, configured broadcast and unicast UDP parameters, and tuned PTP time synchronization for multi-sensor hardware setups. Validated PointCloud2 message formats and coordinate frame transformations in RViz2.
+                  </p>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- Slide progress track -->
+          <div class="gallery-progress-bar" aria-hidden="true">
+            <div class="gallery-progress-fill" id="gallery-progress-fill"></div>
+          </div>
+
+          <!-- Projects Direct Slide Jump Selectors -->
+          <div class="projects-dots" id="projects-dots" aria-label="Projects slide selectors">
+            <button class="dot-btn active" data-slide="0" aria-label="Jump to Full Sim Navigation Stack"></button>
+            <button class="dot-btn" data-slide="1" aria-label="Jump to 18-DOF Hexapod"></button>
+            <button class="dot-btn" data-slide="2" aria-label="Jump to EMO-Style Desktop Robot"></button>
+            <button class="dot-btn" data-slide="3" aria-label="Jump to Livox Mid-360S Bring-Up"></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 04 SKILLS ================= -->
+      <section class="content-section" id="skills" aria-labelledby="skills-heading">
+        <div class="content-panel">
+          <div class="section-label">03 / Competencies</div>
+          <h2 class="section-heading" id="skills-heading">Technical Skills</h2>
+
+          <p class="section-summary">
+            Transparently categorized by daily operational competency, hands-on working knowledge, and active learning frontiers.
+          </p>
+
+          <!-- Interactive Sliding Segmented Skill Deck (Non-boxy fluid switcher) -->
+          <div class="skills-sliding-container">
+            <div class="skills-segmented-bar" role="tablist" aria-label="Technical skills honesty tiers">
+              <button class="skill-seg-btn active" role="tab" aria-selected="true" data-tier="daily">
+                <span class="seg-status-dot dot-daily"></span>
+                <span>Daily Use</span>
+                <span class="seg-count">8</span>
+              </button>
+              <button class="skill-seg-btn" role="tab" aria-selected="false" data-tier="working">
+                <span class="seg-status-dot dot-working"></span>
+                <span>Working Knowledge</span>
+                <span class="seg-count">4</span>
+              </button>
+              <button class="skill-seg-btn" role="tab" aria-selected="false" data-tier="learning">
+                <span class="seg-status-dot dot-learning"></span>
+                <span>Active Frontiers</span>
+                <span class="seg-count">3</span>
+              </button>
+            </div>
+
+            <div class="skills-deck-viewport">
+              <!-- Tier 1: Daily Use -->
+              <div class="skill-tier-panel active" id="tier-daily" role="tabpanel">
+                <div class="tier-badge-row">
+                  <span class="tier-level-badge level-operational">OPERATIONAL MASTERY &bull; PRODUCTION READY</span>
+                  <span class="tier-subtext">Deterministic node architecture, simulation, and hardware bring-up</span>
+                </div>
+
+                <!-- Sliding Competency Stream -->
+                <div class="skills-fluid-stream">
+                  <div class="skill-stream-row active" data-skill="ros2" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">ROS 2 (Humble)</span>
+                        <span class="sk-tag">Core Architecture</span>
+                      </div>
+                      <span class="sk-percent">95%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-95"></div></div>
+                    <p class="sk-detail-text">DDS middleware (Cyclone/FastDDS), managed lifecycle nodes, custom msg/srv interfaces, rclcpp/rclpy multi-threaded executors.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="nav2" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Nav2 (Navigation 2)</span>
+                        <span class="sk-tag">Autonomous Nav</span>
+                      </div>
+                      <span class="sk-percent">92%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-92"></div></div>
+                    <p class="sk-detail-text">Behavior trees, global/local costmap2d, dynamic recovery plugins, waypoint follower, controller server tuning.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="slam" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">SLAM Toolbox</span>
+                        <span class="sk-tag">Mapping &amp; Pose</span>
+                      </div>
+                      <span class="sk-percent">90%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-90"></div></div>
+                    <p class="sk-detail-text">Online synchronous mapping, sparse pose-graph optimization, loop-closure validation, lifelong mapping modes.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="gazebo" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Gazebo &amp; RViz2</span>
+                        <span class="sk-tag">Simulation</span>
+                      </div>
+                      <span class="sk-percent">94%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-94"></div></div>
+                    <p class="sk-detail-text">URDF/Xacro physics validation, differential drive &amp; sensor plugins, coordinate frame TF2 tree visualization at 60 FPS.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="cpp" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Modern C++ (C++17)</span>
+                        <span class="sk-tag">Real-Time Core</span>
+                      </div>
+                      <span class="sk-percent">88%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-88"></div></div>
+                    <p class="sk-detail-text">Deterministic robotics routines, RAII memory management, zero-overhead smart pointers, low-latency node execution.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="python" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Python 3</span>
+                        <span class="sk-tag">Prototyping</span>
+                      </div>
+                      <span class="sk-percent">92%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-92"></div></div>
+                    <p class="sk-detail-text">ROS 2 rclpy nodes, sensor telemetry parsing, kinematic transform math, spatial matrix computations.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="linux" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Linux (Ubuntu 22.04 LTS)</span>
+                        <span class="sk-tag">Operating Env</span>
+                      </div>
+                      <span class="sk-percent">95%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-95"></div></div>
+                    <p class="sk-detail-text">Bash automation, udev hardware peripheral rules, socket networking, systemd service deployment for robots.</p>
+                  </div>
+
+                  <div class="skill-stream-row" data-skill="lidar" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">LiDAR (2D &amp; Livox Mid-360S)</span>
+                        <span class="sk-tag">Perception</span>
+                      </div>
+                      <span class="sk-percent">89%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-89"></div></div>
+                    <p class="sk-detail-text">3D point cloud pipelines, coordinate transform frames (base_link &rarr; laser_frame), UDP driver bring-up, IMU sync.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tier 2: Working Knowledge -->
+              <div class="skill-tier-panel" id="tier-working" role="tabpanel">
+                <div class="tier-badge-row">
+                  <span class="tier-level-badge level-applied">PRACTICAL INTEGRATION &bull; APPLIED SYSTEM LEVEL</span>
+                  <span class="tier-subtext">Embedded firmware, kinematics, and hardware drivers</span>
+                </div>
+                <div class="skills-fluid-stream">
+                  <div class="skill-stream-row active" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Embedded Mechatronics</span>
+                        <span class="sk-tag">Hardware</span>
+                      </div>
+                      <span class="sk-percent">82%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-82"></div></div>
+                    <p class="sk-detail-text">ESP32 microcontrollers, bus servo communication, I2S microphone sampling, SPI display pipelines, UART telemetry.</p>
+                  </div>
+                  <div class="skill-stream-row" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">ESP-SR &amp; Edge Audio</span>
+                        <span class="sk-tag">Embedded AI</span>
+                      </div>
+                      <span class="sk-percent">80%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-80"></div></div>
+                    <p class="sk-detail-text">On-chip neural wake-word detection model integration, non-blocking dual-core FreeRTOS task scheduling.</p>
+                  </div>
+                  <div class="skill-stream-row" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">URDF / Xacro Modeling</span>
+                        <span class="sk-tag">Kinematics</span>
+                      </div>
+                      <span class="sk-percent">85%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-85"></div></div>
+                    <p class="sk-detail-text">Parametric robot joints, collision hulls, inertia tensors, transmission tags for Gazebo control plugins.</p>
+                  </div>
+                  <div class="skill-stream-row" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Multi-Sensor Odometry</span>
+                        <span class="sk-tag">Estimation</span>
+                      </div>
+                      <span class="sk-percent">83%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-83"></div></div>
+                    <p class="sk-detail-text">Wheel encoder odometry fused with 6-axis IMU via robot_localization Extended Kalman Filter (EKF).</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tier 3: Active Frontiers -->
+              <div class="skill-tier-panel" id="tier-learning" role="tabpanel">
+                <div class="tier-badge-row">
+                  <span class="tier-level-badge level-frontier">RESEARCH &bull; TARGET ARCHITECTURES</span>
+                  <span class="tier-subtext">Next-generation multi-limbed &amp; aerial autonomous frontiers</span>
+                </div>
+                <div class="skills-fluid-stream">
+                  <div class="skill-stream-row active" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Humanoid Bipedal Control</span>
+                        <span class="sk-tag">Next Target</span>
+                      </div>
+                      <span class="sk-percent">70%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-70"></div></div>
+                    <p class="sk-detail-text">Scaling 2D navigation foundation to dynamic bipedal balance, zero-moment point (ZMP), and multi-joint whole-body trajectory control.</p>
+                  </div>
+                  <div class="skill-stream-row" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Aerial Robotics (Drones)</span>
+                        <span class="sk-tag">Flight Autonomy</span>
+                      </div>
+                      <span class="sk-percent">68%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-68"></div></div>
+                    <p class="sk-detail-text">PX4 flight stack architecture, 3D geometric trajectory generation, visual-inertial odometry (VIO) in GPS-denied environments.</p>
+                  </div>
+                  <div class="skill-stream-row" tabindex="0">
+                    <div class="sk-row-header">
+                      <div class="sk-row-title-wrap">
+                        <span class="sk-accent-beam"></span>
+                        <span class="sk-name">Robotics Cybersecurity</span>
+                        <span class="sk-tag">Network Integrity</span>
+                      </div>
+                      <span class="sk-percent">65%</span>
+                    </div>
+                    <div class="sk-meter-track"><div class="sk-meter-bar fill-65"></div></div>
+                    <p class="sk-detail-text">DDS transport security (SROS 2), network isolation, encrypted telemetry channels, preventing rogue node injection.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 04 NEXT ================= -->
+      <section class="content-section" id="next" aria-labelledby="next-heading">
+        <div class="content-panel">
+          <div class="section-label">04 / Trajectory</div>
+          <h2 class="section-heading" id="next-heading">What I'm Working Toward</h2>
+
+          <!-- 2-3 lines concise trajectory -->
+          <p class="section-summary">
+            Developing deeper knowledge in humanoid control and aerial robotics (drones). Committed to bridging proven autonomous navigation with physical systems to build robots that operate reliably in complex environments.
+          </p>
+
+          <!-- Interactive Stepped Trajectory Roadmap (Fluid Seamless Timeline) -->
+          <div class="trajectory-interactive-flow">
+            <div class="trajectory-track-line" aria-hidden="true">
+              <div class="track-progress-glow"></div>
+            </div>
+
+            <!-- Milestone 1 -->
+            <div class="trajectory-step active" data-step="1" tabindex="0">
+              <div class="step-indicator">
+                <span class="step-num">01</span>
+                <span class="step-pulse"></span>
+              </div>
+              <div class="step-content">
+                <div class="step-badge-row">
+                  <span class="step-tag tag-validated">PROVEN FOUNDATION</span>
+                  <span class="step-status">Active Production Core</span>
+                </div>
+                <h3 class="step-title">Autonomous Navigation &amp; SLAM</h3>
+                <p class="step-desc">
+                  Deterministic spatial perception, costmap management, dynamic recovery, and obstacle avoidance validated from Gazebo simulation to hardware bring-up.
+                </p>
+                <div class="step-sliding-drawer">
+                  <span class="tech-chip">Nav2 Behavior Trees</span>
+                  <span class="tech-chip">SLAM Toolbox</span>
+                  <span class="tech-chip">ROS 2 Humble</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Milestone 2 -->
+            <div class="trajectory-step" data-step="2" tabindex="0">
+              <div class="step-indicator">
+                <span class="step-num">02</span>
+                <span class="step-pulse"></span>
+              </div>
+              <div class="step-content">
+                <div class="step-badge-row">
+                  <span class="step-tag tag-frontier">PRIMARY HORIZON</span>
+                  <span class="step-status">Active Research</span>
+                </div>
+                <h3 class="step-title">Humanoid Robotics &amp; Dynamic Locomotion</h3>
+                <p class="step-desc">
+                  Extending proven planar navigation to high-DOF bipedal kinematics, spatial posture balance, whole-body perception, and humanoid operational autonomy.
+                </p>
+                <div class="step-sliding-drawer">
+                  <span class="tech-chip">Bipedal Kinematics</span>
+                  <span class="tech-chip">Balance Control</span>
+                  <span class="tech-chip">Whole-Body Telemetry</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Milestone 3 -->
+            <div class="trajectory-step" data-step="3" tabindex="0">
+              <div class="step-indicator">
+                <span class="step-num">03</span>
+                <span class="step-pulse"></span>
+              </div>
+              <div class="step-content">
+                <div class="step-badge-row">
+                  <span class="step-tag tag-expansion">SPATIAL EXPANSION</span>
+                  <span class="step-status">Exploratory Focus</span>
+                </div>
+                <h3 class="step-title">Aerial Robotics &amp; Drones</h3>
+                <p class="step-desc">
+                  Exploring 3D geometric path planning, visual-inertial odometry (VIO), and PX4 flight stack autonomy for agile unmanned aerial vehicles.
+                </p>
+                <div class="step-sliding-drawer">
+                  <span class="tech-chip">PX4 Flight Stack</span>
+                  <span class="tech-chip">3D Trajectory Planning</span>
+                  <span class="tech-chip">VIO Odometry</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 06 CONTACT ================= -->
+      <section class="content-section" id="contact" aria-labelledby="contact-heading">
+        <div class="content-panel contact-panel">
+          <div class="section-label">05 / Connect</div>
+          <h2 class="section-heading" id="contact-heading">Get in Touch</h2>
+
+          <p class="section-summary">
+            Open to technical discussions with robotics recruiters, hiring managers, and research labs building autonomous systems.
+          </p>
+
+          <!-- Integrated Sliding Communication Terminal (Zero Box Containers) -->
+          <div class="contact-terminal">
+            
+            <!-- Email Channel -->
+            <div class="contact-channel-row" tabindex="0">
+              <div class="channel-accent-slider"></div>
+              <div class="contact-card-icon" aria-hidden="true">&#9993;</div>
+              <div class="contact-card-body">
+                <span class="contact-card-label">Direct Email</span>
+                <a href="mailto:adityadahake18@gmail.com" class="contact-card-val" id="email-link">adityadahake18@gmail.com</a>
+              </div>
+              <button class="copy-btn" id="copy-email-btn" aria-label="Copy email address to clipboard">Copy</button>
+            </div>
+
+            <!-- LinkedIn Channel -->
+            <div class="contact-channel-row" tabindex="0">
+              <div class="channel-accent-slider"></div>
+              <div class="contact-card-icon" aria-hidden="true">&#9881;</div>
+              <div class="contact-card-body">
+                <span class="contact-card-label">LinkedIn</span>
+                <a href="https://www.linkedin.com/in/aditya-dahake-a10a3a279" target="_blank" rel="noopener noreferrer" class="contact-card-val">
+                  linkedin.com/in/aditya-dahake-a10a3a279 &rarr;
+                </a>
+              </div>
+            </div>
+
+            <!-- GitHub Channel -->
+            <div class="contact-channel-row" tabindex="0">
+              <div class="channel-accent-slider"></div>
+              <div class="contact-card-icon" aria-hidden="true">&#128187;</div>
+              <div class="contact-card-body">
+                <span class="contact-card-label">GitHub</span>
+                <a href="https://github.com/AdityaDahake18" target="_blank" rel="noopener noreferrer" class="contact-card-val">
+                  github.com/AdityaDahake18 &rarr;
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Toast notification for copy button -->
+          <div id="copy-toast" class="copy-toast" role="status" aria-live="polite">Email copied to clipboard!</div>
+        </div>
+      </section>
+
+      <!-- Minimalist Editorial Footer -->
+      <footer class="site-footer">
+        <div class="footer-content">
+          <p class="footer-copy">
+            &copy; 2026 Aditya Dahake &bull; Robotics &amp; Automation. All rights reserved.
+          </p>
+          <p class="footer-credit">
+            3D Humanoid Model: Open Source Mesh &bull; Licensed under Apache 2.0 / MIT.
+            <a href="assets/CREDITS.md" class="footer-link">Asset Credits</a>
+          </p>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Main Engine and Interaction Scripts -->
+  <script src="js/engine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
