@@ -1,3 +1,22 @@
+/* --- 0. SELF-HOSTED WOFF2 FONTS (Latin Subset) --- */
+@font-face {
+  font-family: 'Inter Tight';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('../assets/fonts/inter-tight-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../assets/fonts/space-grotesk-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ==========================================================================
    ADITYA DAHAKE — ROBOTICS & AUTOMATION FLAGSHIP STYLESHEET
    Design System: Dark Cinematic Precision · WCAG AAA (Contrast >= 7:1)
@@ -26,7 +45,7 @@
   --accent-amber: #F59E0B;
   --accent-green: #10B981;
   
-  --font-main: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-main: 'Inter Tight', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Space Grotesk', ui-monospace, SFMono-Regular, monospace;
   
   --radius-sm: 8px;
@@ -63,7 +82,8 @@ body {
   min-height: 100vh;
   background-color: var(--bg-deep);
   line-height: 1.65;
-  font-size: 1.0625rem; /* 17px */
+  font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.1875rem); /* >= 17px fluid */
+  line-height: 1.6;
   overflow-x: hidden;
   position: relative;
 }
@@ -163,7 +183,7 @@ body {
 
 .preloader-sub {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.15em;
   color: var(--accent-cyan);
 }
@@ -173,7 +193,7 @@ body {
   background: transparent;
   border: 1px solid var(--border-subtle);
   color: var(--text-muted);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   padding: 0.35rem 0.8rem;
   border-radius: var(--radius-full);
   cursor: pointer;
@@ -211,8 +231,7 @@ body {
   gap: 0.65rem;
   text-decoration: none;
   background: rgba(6, 14, 27, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  -webkit-
   padding: 0.45rem 0.9rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
@@ -242,8 +261,7 @@ body {
   align-items: center;
   gap: 0.4rem;
   background: rgba(6, 14, 27, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  -webkit-
   padding: 0.35rem 0.6rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
@@ -282,18 +300,42 @@ body {
   min-height: 100vh;
 }
 
-/* --- 6. 3D HUMANOID STAGE (Fixed on Desktop, Sticky on Mobile) --- */
+/* --- 6. 3D HUMANOID STAGE (Fixed Full-Viewport Background, z-index: 0) --- */
 .stage-wrap {
   position: fixed;
-  top: 0;
-  right: 0;
-  width: 50vw;
+  inset: 0;
+  width: 100vw;
   height: 100vh;
-  z-index: 10;
-  pointer-events: auto;
-  cursor: grab;
+  z-index: 0;
+  pointer-events: none;
   user-select: none;
-  touch-action: none;
+  overflow: hidden;
+}
+
+#stage-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.stage-fallback-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stage-fallback-img.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .stage-wrap:active {
@@ -329,8 +371,7 @@ body {
   right: 2rem;
   z-index: 25;
   background: rgba(6, 14, 27, 0.78);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  -webkit-
   border: 1px solid rgba(0, 229, 255, 0.22);
   border-radius: var(--radius-md);
   padding: 0.75rem 0.95rem;
@@ -347,7 +388,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
   color: var(--text-muted);
 }
@@ -367,7 +408,7 @@ body {
 
 .hud-badge {
   margin-left: auto;
-  font-size: 0.65rem;
+  font-size: 0.8125rem;
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
   background: rgba(0, 229, 255, 0.15);
@@ -388,7 +429,7 @@ body {
   border: 1px solid var(--border-subtle);
   color: var(--text-secondary);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   padding: 0.35rem 0.65rem;
   border-radius: var(--radius-sm);
   display: inline-flex;
@@ -429,12 +470,11 @@ body {
   align-items: center;
   gap: 0.5rem;
   background: rgba(6, 14, 27, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  -webkit-
   border: 1px solid var(--border-subtle);
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
@@ -444,42 +484,83 @@ body {
   color: var(--accent-cyan);
 }
 
-/* --- 7. LEFT CONTENT SCROLL CONTAINER --- */
+/* --- 7. CONTENT SCROLL CONTAINER (Layered over canvas, z-index: 1) --- */
 .content-scroll-container {
   position: relative;
-  z-index: 20;
-  width: 50vw;
+  z-index: 1;
+  width: 100%;
   min-height: 100vh;
-  padding: 6.5rem 3rem 5rem 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  pointer-events: auto;
 }
 
 .content-section {
   width: 100%;
+  min-height: 100vh;
   display: flex;
-  justify-content: flex-end;
-  padding-bottom: 2.5rem;
+  align-items: center;
+  padding: 6.5rem 5vw 4rem;
+  perspective: 1200px;
+  position: relative;
+  contain: layout paint;
 }
 
-/* --- 8. FROSTED-GLASS CONTENT PANELS (WCAG AAA >= 7:1) --- */
+.content-section:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: 850px;
+}
+
+/* Zig-Zag Column Alternation: Max 640px text column opposite the robot */
+.content-section.align-left {
+  justify-content: flex-start;
+}
+
+.content-section.align-left .content-panel {
+  margin-right: auto;
+  margin-left: 0;
+  max-width: 640px;
+  /* Left gradient scrim ensuring >= 7:1 contrast even over light robot parts */
+  background: linear-gradient(90deg, rgba(8, 10, 14, 0.96) 0%, rgba(8, 10, 14, 0.88) 75%, rgba(8, 10, 14, 0.6) 100%);
+}
+
+.content-section.align-right {
+  justify-content: flex-end;
+}
+
+.content-section.align-right .content-panel {
+  margin-left: auto;
+  margin-right: 0;
+  max-width: 640px;
+  /* Right gradient scrim */
+  background: linear-gradient(270deg, rgba(8, 10, 14, 0.96) 0%, rgba(8, 10, 14, 0.88) 75%, rgba(8, 10, 14, 0.6) 100%);
+}
+
+.content-section.align-center-left {
+  justify-content: flex-start;
+}
+
+.content-section.align-center-left .content-panel {
+  margin-left: 4vw;
+  margin-right: auto;
+  max-width: 680px;
+  background: linear-gradient(90deg, rgba(8, 10, 14, 0.96) 0%, rgba(8, 10, 14, 0.88) 80%, rgba(8, 10, 14, 0.6) 100%);
+}
+
+/* --- 8. HIGH-CONTRAST CONTENT PANELS (WCAG AAA >= 7:1, Solid Scrim, Flat at Rest) --- */
 .content-panel {
   width: 100%;
-  max-width: 560px; /* Constrained to ~560px on desktop */
-  background: var(--bg-panel);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   padding: 2.5rem 2.25rem;
-  box-shadow: var(--shadow-panel);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transform-style: preserve-3d;
+  transform: none; /* Perfectly flat and crisp at rest */
+  will-change: auto;
 }
 
 /* --- 9. TYPOGRAPHY & HIERARCHY --- */
 .section-label {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -502,7 +583,8 @@ body {
 }
 
 .section-summary {
-  font-size: 1.0625rem; /* 17px */
+  font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.1875rem); /* >= 17px fluid */
+  line-height: 1.6;
   line-height: 1.65;
   color: var(--text-secondary);
   max-width: 60ch;
@@ -536,7 +618,7 @@ body {
 
 .kicker-text {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   color: var(--accent-cyan);
@@ -639,7 +721,7 @@ body {
 
 .fill-pill {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   background: rgba(245, 158, 11, 0.15);
   color: #FBBF24;
   border: 1px solid rgba(245, 158, 11, 0.35);
@@ -670,7 +752,7 @@ body {
   border: 1px solid transparent;
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   padding: 0.45rem 0.75rem;
   border-radius: var(--radius-full);
   display: inline-flex;
@@ -715,8 +797,7 @@ body {
   border-left: 3px solid var(--accent-cyan);
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: 1.4rem 1.5rem;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  -webkit-
 }
 
 .deck-slide.active {
@@ -746,7 +827,7 @@ body {
 
 .spec-category {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.1em;
   color: var(--accent-cyan);
   font-weight: 600;
@@ -754,7 +835,7 @@ body {
 
 .spec-status {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.8125rem;
   color: var(--text-secondary);
 }
 
@@ -773,7 +854,7 @@ body {
 
 .tech-chip {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-subtle);
@@ -827,7 +908,7 @@ body {
 
 .tel-label {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   letter-spacing: 0.08em;
   color: var(--text-muted);
 }
@@ -972,12 +1053,11 @@ body {
   top: 0.75rem;
   left: 0.75rem;
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   background: rgba(6, 14, 27, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  -webkit-
   color: var(--accent-cyan);
   border: 1px solid rgba(0, 229, 255, 0.3);
   padding: 0.25rem 0.6rem;
@@ -1019,7 +1099,7 @@ body {
   font-weight: 600;
   color: var(--text-white);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-right: 0.35rem;
@@ -1042,7 +1122,7 @@ body {
 .fill-tag {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 0.725rem;
+  font-size: 0.8125rem;
   background: #F59E0B;
   color: #040913;
   padding: 0.1rem 0.35rem;
@@ -1103,7 +1183,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-family: var(--font-mono);
 }
 
@@ -1121,7 +1201,7 @@ body {
 
 .fill-pill {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: #FCD34D;
   background: rgba(245, 158, 11, 0.12);
@@ -1245,7 +1325,7 @@ body {
 }
 
 .seg-count {
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   padding: 0.1rem 0.4rem;
   border-radius: var(--radius-full);
   background: rgba(255, 255, 255, 0.08);
@@ -1274,7 +1354,7 @@ body {
 
 .tier-level-badge {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.1em;
 }
@@ -1351,7 +1431,7 @@ body {
 
 .sk-tag {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   color: var(--accent-cyan);
   background: rgba(0, 229, 255, 0.1);
   padding: 0.15rem 0.45rem;
@@ -1360,7 +1440,7 @@ body {
 
 .sk-percent {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-secondary);
   transition: color var(--transition-fast);
@@ -1384,7 +1464,11 @@ body {
   height: 100%;
   background: linear-gradient(90deg, #3B82F6, var(--accent-cyan));
   border-radius: var(--radius-full);
-  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
 }
 
 .sk-detail-text {
@@ -1400,19 +1484,19 @@ body {
   color: var(--text-primary);
 }
 
-.fill-95 { width: 95%; }
-.fill-94 { width: 94%; }
-.fill-92 { width: 92%; }
-.fill-90 { width: 90%; }
-.fill-89 { width: 89%; }
-.fill-88 { width: 88%; }
-.fill-85 { width: 85%; }
-.fill-83 { width: 83%; }
-.fill-82 { width: 82%; }
-.fill-80 { width: 80%; }
-.fill-70 { width: 70%; }
-.fill-68 { width: 68%; }
-.fill-65 { width: 65%; }
+.fill-95 { transform: scaleX(0.95); }
+.fill-94 { transform: scaleX(0.94); }
+.fill-92 { transform: scaleX(0.92); }
+.fill-90 { transform: scaleX(0.90); }
+.fill-89 { transform: scaleX(0.89); }
+.fill-88 { transform: scaleX(0.88); }
+.fill-85 { transform: scaleX(0.85); }
+.fill-83 { transform: scaleX(0.83); }
+.fill-82 { transform: scaleX(0.82); }
+.fill-80 { transform: scaleX(0.80); }
+.fill-70 { transform: scaleX(0.70); }
+.fill-68 { transform: scaleX(0.68); }
+.fill-65 { transform: scaleX(0.65); }
 
 /* --- 14. INTERACTIVE STEPPED TRAJECTORY ROADMAP (Fluid Seamless Timeline) --- */
 .trajectory-interactive-flow {
@@ -1482,7 +1566,7 @@ body {
 
 .step-num {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-white);
 }
@@ -1496,7 +1580,7 @@ body {
 
 .step-tag {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   padding: 0.15rem 0.45rem;
@@ -1523,7 +1607,7 @@ body {
 
 .step-status {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
 }
 
@@ -1604,7 +1688,7 @@ body {
 
 .contact-card-label {
   font-family: var(--font-mono);
-  font-size: 0.725rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -1629,7 +1713,7 @@ body {
   border: 1px solid var(--border-subtle);
   color: var(--text-primary);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   padding: 0.4rem 0.85rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
@@ -1651,7 +1735,7 @@ body {
 .resume-download-btn {
   text-decoration: none;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   background: rgba(245, 158, 11, 0.2);
   color: #FCD34D;
   border: 1px solid rgba(245, 158, 11, 0.4);
@@ -1765,34 +1849,7 @@ body {
 
 /* Tablet & Smaller Screens (< 1024px) */
 @media (max-width: 1023px) {
-  .viewport-split {
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Stage becomes sticky ~35vh top strip */
-  .stage-wrap {
-    position: sticky;
-    top: 0;
-    right: auto;
-    width: 100%;
-    height: 35vh;
-    z-index: 40;
-    background: #040913;
-    border-bottom: 1px solid var(--border-subtle);
-  }
-
-  .stage-overlay {
-    bottom: 0.85rem;
-    right: 0.85rem;
-  }
-
-  .drag-badge {
-    font-size: 0.7rem;
-    padding: 0.3rem 0.65rem;
-  }
-
-  /* Content scrolls beneath stage in scannable cards */
+  /* Content scrolls above fixed background */
   .content-scroll-container {
     width: 100%;
     min-height: auto;
@@ -1830,14 +1887,6 @@ body {
 
 /* Small Mobile Screens (< 480px) */
 @media (max-width: 480px) {
-  html {
-    font-size: 15px;
-  }
-
-  .stage-wrap {
-    height: 32vh;
-  }
-
   .content-panel {
     padding: 1.5rem 1.15rem;
     border-radius: var(--radius-md);
@@ -1907,5 +1956,176 @@ body {
 
   .custom-cursor {
     display: none !important;
+  }
+}
+
+/* --- 15. FLOATING ROBOT MOTION CONTROLLER FAB & DRAWER --- */
+.motion-controller-wrap {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.motion-fab-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(8, 14, 26, 0.92);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 229, 255, 0.2);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+}
+
+.motion-fab-btn:hover {
+  transform: scale(1.08);
+  border-color: var(--accent-cyan);
+  background: rgba(10, 22, 42, 0.98);
+}
+
+.motion-fab-btn .fab-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.motion-drawer {
+  background: rgba(8, 14, 26, 0.96);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1rem;
+  width: 260px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 229, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  opacity: 0;
+  transform: translateY(10px) scale(0.96);
+  pointer-events: none;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.motion-drawer.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.motion-drawer[hidden] {
+  display: none;
+}
+
+.motion-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 0.45rem;
+}
+
+.motion-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.motion-status-title {
+  flex: 1;
+  font-weight: 600;
+}
+
+.motion-status-badge {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.motion-clip-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem;
+}
+
+.motion-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.motion-btn:hover {
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--text-white);
+  border-color: rgba(0, 229, 255, 0.4);
+}
+
+.motion-btn.active {
+  background: rgba(0, 229, 255, 0.2);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+.pause-motion-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  padding: 0.4rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pause-motion-btn:hover,
+.pause-motion-btn[aria-pressed="true"] {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--accent-amber);
+  color: var(--accent-amber);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 820px) {
+  .stage-wrap {
+    height: 100vh;
+  }
+  .stage-fallback-img {
+    object-position: center 15%;
+  }
+  .content-section {
+    padding: 36vh 1.25rem 3.5rem;
+    align-items: flex-start;
+  }
+  .content-section.align-left .content-panel,
+  .content-section.align-right .content-panel,
+  .content-section.align-center-left .content-panel {
+    margin: 0 auto;
+    max-width: 100%;
+    background: rgba(8, 10, 14, 0.94);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
   }
 }

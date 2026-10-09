@@ -1,898 +1,1533 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aditya Dahake — Robotics &amp; Automation | Autonomous Navigation &amp; SLAM</title>
-  <meta name="description" content="Portfolio of Aditya Dahake. Robotics engineering student building toward humanoids, with autonomous navigation, ROS 2, and SLAM as a proven foundation." />
-  <meta name="author" content="Aditya Dahake" />
-  <meta name="robots" content="index, follow" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Aditya Dahake — Robotics &amp; Autonomous Systems Engineer</title>
+<meta name="description" content="Robotics and automation engineering student and R&D intern. Autonomous navigation, ROS 2, SLAM, robotics cybersecurity, and humanoid locomotion.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap">
+<noscript>
+<style>
+.rv,.w>span{opacity:1!important;transform:none!important}
+#net,#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#net{z-index:0}#fx{z-index:80}
+#rb{pointer-events:auto;cursor:pointer;transition:filter .5s;will-change:transform}
+#hint{position:absolute;bottom:6vh;left:50%;translate:-50% 0;font:500 11px var(--sans);letter-spacing:.22em;color:var(--mut);text-transform:uppercase;white-space:nowrap}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--ac),transparent) -40vw 0/40vw 1px no-repeat;animation:sc 4s linear infinite}
+@keyframes sc{to{background-position:140vw 0}}
+#hud{position:fixed;top:calc(74px + env(safe-area-inset-top,0px));left:5vw;z-index:49;font:500 11px/1.7 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--mut);pointer-events:none}
+#hud i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin-right:8px;animation:bk 1.4s infinite}@keyframes bk{50%{opacity:.2}}
+#cu,#cr{position:fixed;top:0;left:0;z-index:95;pointer-events:none;display:none;border-radius:50%}
+#cu{width:6px;height:6px;margin:-3px;background:var(--ac)}#cr{width:38px;height:38px;margin:-19px;border:1px solid rgba(77,225,255,.6);transition:width .3s,height .3s,margin .3s,background .3s}#cr.h{width:64px;height:64px;margin:-32px;background:rgba(77,225,255,.1)}
+@media(hover:hover) and (pointer:fine){#cu,#cr{display:block}body,a,button,#rb{cursor:none!important}}
+#boot{position:fixed;inset:0;z-index:100;background:#05080d;display:grid;place-items:center;text-align:center;transition:transform 1s cubic-bezier(.7,0,.2,1);font:500 12px ui-monospace,monospace;letter-spacing:.3em;color:var(--mut)}
+#boot.go{transform:translateY(-100%)}#boot b{display:block;font:400 clamp(80px,14vw,200px)/1 var(--ser);color:var(--fg);letter-spacing:0}
+@media(max-width:900px){#hud,#hint{display:none}}
+</style>
+</noscript>
+<style>
+:root{
+  --bg:#070b14;
+  --fg:#eef2f8;
+  --mut:#93a0b4;
+  --ac:#4de1ff;
+  --ac-glow:rgba(77,225,255,0.28);
+  --ln:rgba(255,255,255,.11);
+  --panel-bg:rgba(9,14,24,0.72);
+  --sw:min(38vw,480px);
+  --ser:'Instrument Serif',Georgia,serif;
+  --sans:'Inter Tight',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:400 17px/1.65 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://adityadahake18.github.io/" />
-  <meta property="og:title" content="Aditya Dahake — Robotics &amp; Automation" />
-  <meta property="og:description" content="Robotics engineering student building toward humanoids, with autonomous navigation and SLAM as a proven foundation." />
-  <meta property="og:image" content="assets/images/humanoid-poster.webp" />
+/* Background Atmosphere */
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 55% at 72% 48%,rgba(77,225,255,.12),transparent 70%),radial-gradient(40% 40% at 8% 95%,rgba(110,90,255,.11),transparent 70%)}
+#floor{position:fixed;left:0;right:0;bottom:0;height:36vh;z-index:0;background:repeating-linear-gradient(90deg,var(--ln) 0 1px,transparent 1px 64px),repeating-linear-gradient(0deg,var(--ln) 0 1px,transparent 1px 48px);transform:perspective(500px) rotateX(58deg);transform-origin:bottom;-webkit-mask-image:linear-gradient(transparent,#000);mask-image:linear-gradient(transparent,#000);animation:fl 1.1s linear infinite paused;pointer-events:none}
+body.walk #floor{animation-play-state:running}
+body.rev #floor{animation-direction:reverse}
+@keyframes fl{to{background-position:64px 0,0 0}}
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://adityadahake18.github.io/" />
-  <meta name="twitter:title" content="Aditya Dahake — Robotics &amp; Automation" />
-  <meta name="twitter:description" content="Robotics engineering student building toward humanoids, with autonomous navigation and SLAM as a proven foundation." />
-  <meta name="twitter:image" content="assets/images/humanoid-poster.webp" />
+/* Canvas Layers */
+#net,#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#net{z-index:0}
+#fx{z-index:80}
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+/* Cursor Elements */
+#cu,#cr{position:fixed;top:0;left:0;z-index:95;pointer-events:none;display:none;border-radius:50%}
+#cu{width:6px;height:6px;margin:-3px;background:var(--ac);box-shadow:0 0 8px var(--ac)}
+#cr{width:38px;height:38px;margin:-19px;border:1px solid rgba(77,225,255,.6);transition:width .3s,height .3s,margin .3s,background .3s}
+#cr.h{width:64px;height:64px;margin:-32px;background:rgba(77,225,255,.12);border-color:var(--ac)}
+@media(hover:hover) and (pointer:fine){#cu,#cr{display:block}body,a,button,#rb{cursor:none!important}}
 
-  <!-- Web Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+/* Top Scroll Progress Indicator */
+#pg{position:fixed;top:0;left:0;right:0;height:2px;background:var(--ac);transform:scaleX(0);transform-origin:left;z-index:60}
 
-  <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/style.css" />
+/* Header */
+header{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(18px + env(safe-area-inset-top,0px)) 5vw 18px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(var(--bg) 60%,transparent);backdrop-filter:blur(8px)}
+header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--ac),transparent) -40vw 0/40vw 1px no-repeat;animation:sc 4s linear infinite}
+@keyframes sc{to{background-position:140vw 0}}
+.lg{font:400 24px var(--ser);letter-spacing:-.01em;display:inline-block}
+nav{display:flex;gap:30px;font-size:15px}
+nav a{color:var(--mut);position:relative;padding:4px 0;transition:color .3s}
+nav a::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--ac);transform:scaleX(0);transform-origin:left;transition:transform .5s}
+nav a:hover,nav a.on{color:var(--fg)}
+nav a:hover::after,nav a.on::after{transform:scaleX(1)}
 
-  <!-- Vendor Libraries (Locally Hosted for Zero-Latency & Reliability) -->
-  <script src="js/vendor/three.min.js"></script>
-  <script src="js/vendor/GLTFLoader.js"></script>
-  <script src="js/vendor/DRACOLoader.js"></script>
-  <script src="js/vendor/gsap.min.js"></script>
-  <script src="js/vendor/ScrollTrigger.min.js"></script>
-  <script src="js/vendor/lenis.min.js"></script>
+/* Fixed Telemetry HUD */
+#hud{position:fixed;top:calc(74px + env(safe-area-inset-top,0px));left:5vw;z-index:49;font:500 11px/1.7 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--mut);pointer-events:none}
+#hud i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);margin-right:8px;box-shadow:0 0 8px var(--ac);animation:bk 1.4s infinite}
+@keyframes bk{50%{opacity:.2}}
+
+/* Boot Splash */
+#boot{position:fixed;inset:0;z-index:100;background:#05080d;display:grid;place-items:center;text-align:center;transition:transform 1s cubic-bezier(.7,0,.2,1);font:500 12px ui-monospace,monospace;letter-spacing:.3em;color:var(--mut)}
+#boot.go{transform:translateY(-100%);pointer-events:none}
+#boot b{display:block;font:400 clamp(80px,14vw,200px)/1 var(--ser);color:var(--fg);letter-spacing:0}
+
+/* Robot Stage */
+#stage{position:fixed;z-index:1;top:0;bottom:0;right:4vw;width:var(--sw);display:grid;place-items:center;pointer-events:none;transition:transform 1.5s cubic-bezier(.65,0,.25,1)}
+#stage.L{transform:translateX(calc(8vw + var(--sw) - 100vw))}
+#stage::before,#stage::after{content:"";position:absolute;aspect-ratio:1;border-radius:50%;animation:sp 50s linear infinite;pointer-events:none}
+#stage::before{width:94%;border:1px dashed rgba(77,225,255,.24)}
+#stage::after{width:72%;border:1px solid rgba(77,225,255,.1);border-top-color:var(--ac);animation-duration:26s;animation-direction:reverse}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.cone{position:absolute;top:0;left:50%;width:82%;height:88%;translate:-50% 0;background:linear-gradient(rgba(77,225,255,.24),transparent 85%);clip-path:polygon(44% 0,56% 0,100% 100%,0 100%);animation:cn 4s ease-in-out infinite;filter:blur(2px);pointer-events:none}
+@keyframes cn{50%{opacity:.45}}
+
+#tag{position:absolute;top:9vh;left:50%;translate:-50% 0;white-space:nowrap;font:500 13px/1 var(--sans);color:var(--ac);padding:8px 18px;border:1px solid rgba(77,225,255,.3);border-radius:99px;background:rgba(7,11,20,.85);backdrop-filter:blur(8px);box-shadow:0 4px 20px rgba(0,0,0,.4);transition:opacity .35s,transform .35s;z-index:2;pointer-events:none}
+#hint{position:absolute;bottom:6vh;left:50%;translate:-50% 0;font:500 11px var(--sans);letter-spacing:.22em;color:var(--mut);text-transform:uppercase;white-space:nowrap;pointer-events:none;opacity:.7}
+
+/* Real Robot Unit */
+#rb{
+  height:min(74vh,640px);
+  width:min(34vw,260px);
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+  cursor:pointer;
+  transition:filter .5s,transform .15s ease-out;
+  will-change:transform,filter;
+}
+.rb-body{
+  position:relative;
+  height:100%;
+  aspect-ratio:191/564;
+  max-width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.rb-body img{
+  height:100%;
+  width:100%;
+  max-width:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 25px 35px rgba(0,0,0,.8)) drop-shadow(0 0 16px rgba(77,225,255,.32));
+  transition:filter .5s;
+  pointer-events:none;
+  user-select:none;
+}
+#rb.lk .rb-body img{
+  filter:drop-shadow(0 0 30px #4de1ff) drop-shadow(0 0 55px rgba(77,225,255,.85)) brightness(1.25) saturate(1.35);
+}
+#rb.pop{animation:pp .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes pp{30%{transform:scale(1.08)}}
+
+/* Robot Aesthetic Visor & Prominent Glowing Blue Eyes */
+.rb-face{
+  position:absolute;
+  top:2.2%;
+  left:50%;
+  transform:translateX(-50%);
+  width:29%;
+  height:9.8%;
+  pointer-events:none;
+  z-index:3;
+}
+.rb-sensor-dot{
+  position:absolute;
+  top:2%;
+  left:50%;
+  transform:translateX(-50%);
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:#4de1ff;
+  box-shadow:0 0 6px #4de1ff, 0 0 12px #4de1ff;
+  animation:bk 1.6s infinite;
+}
+.rb-brow-arc{
+  position:absolute;
+  top:24%;
+  left:8%;
+  right:8%;
+  height:7px;
+  border-top:1.5px solid rgba(77,225,255,0.7);
+  border-radius:50% 50% 0 0;
+  box-shadow:0 -1px 8px rgba(77,225,255,0.5);
+}
+.rb-eyes{
+  position:absolute;
+  top:38%;
+  left:2%;
+  right:2%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  pointer-events:none;
+}
+.rb-eye{
+  width:15px;
+  height:10px;
+  background:radial-gradient(circle at center, #ffffff 18%, #4de1ff 60%, rgba(12,48,78,0.95) 100%);
+  border:1.5px solid #a8f0ff;
+  border-radius:4px;
+  box-shadow:0 0 10px #4de1ff, 0 0 22px rgba(77,225,255,0.95), 0 0 34px rgba(77,225,255,0.7), inset 0 0 6px #4de1ff;
+  animation:eye-blink 4.4s infinite ease-in-out;
+  transform-origin:center;
+  position:relative;
+  overflow:hidden;
+  transition:box-shadow .3s, transform .3s;
+}
+.rb-pupil{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#ffffff;
+  box-shadow:0 0 4px #ffffff, 0 0 8px #4de1ff;
+}
+.rb-eye-glare{
+  position:absolute;
+  top:1px;
+  left:2px;
+  width:3px;
+  height:2px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.9);
+}
+#rb:hover .rb-eye{
+  box-shadow:0 0 16px #4de1ff, 0 0 32px #4de1ff, 0 0 48px rgba(77,225,255,0.95);
+  transform:scale(1.12);
+}
+
+@keyframes eye-blink{
+  0%, 45%, 49%, 92%, 96%, 100%{
+    transform:scaleY(1);
+    opacity:1;
+  }
+  47%{
+    transform:scaleY(0.08);
+    opacity:0.35;
+  }
+  94%{
+    transform:scaleY(0.08);
+    opacity:0.35;
+  }
+}
+
+/* Eye scanning sweep beam */
+.rb-face::after{
+  content:"";
+  position:absolute;
+  left:-8px;
+  right:-8px;
+  top:34%;
+  height:14px;
+  background:linear-gradient(90deg, transparent, rgba(77,225,255,0.95), transparent);
+  border-radius:4px;
+  opacity:0;
+  pointer-events:none;
+}
+.rb-face.scan::after{
+  animation:eye-sweep .9s ease-in-out;
+}
+@keyframes eye-sweep{
+  0%{ transform:translateX(-100%); opacity:0; }
+  50%{ opacity:1; }
+  100%{ transform:translateX(100%); opacity:0; }
+}
+
+/* Robot Interactive Wave Animation */
+#rb.wave{
+  animation:rb-friendly-wave 1.6s cubic-bezier(.25,1,.3,1);
+}
+@keyframes rb-friendly-wave{
+  0%{ transform: perspective(900px) rotate(0deg) translateY(0); }
+  16%{ transform: perspective(900px) rotate(-3.5deg) translateY(-14px) scale(1.02); }
+  32%{ transform: perspective(900px) rotate(3deg) translateY(-10px) scale(1.02); }
+  48%{ transform: perspective(900px) rotate(-2.5deg) translateY(-7px); }
+  64%{ transform: perspective(900px) rotate(2deg) translateY(-4px); }
+  80%{ transform: perspective(900px) rotate(-1deg) translateY(-2px); }
+  100%{ transform: perspective(900px) rotate(0deg) translateY(0); }
+}
+
+#rb.nod{
+  animation:rb-nod 1.1s cubic-bezier(.25,1,.3,1);
+}
+@keyframes rb-nod{
+  0%, 100%{ transform: perspective(900px) rotateX(0deg) translateY(0); }
+  30%{ transform: perspective(900px) rotateX(6deg) translateY(-8px); }
+  60%{ transform: perspective(900px) rotateX(-2deg) translateY(-2px); }
+}
+
+/* Holographic Wave Radar Arcs near Right Hand */
+.rb-wave-arcs{
+  position:absolute;
+  top:49%;
+  right:1%;
+  width:42px;
+  height:42px;
+  pointer-events:none;
+  opacity:0;
+  z-index:4;
+}
+.rb-wave-arcs i{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:1.5px solid var(--ac);
+  clip-path:polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  opacity:0;
+  transform:scale(0.3) rotate(-15deg);
+}
+#rb.wave .rb-wave-arcs{
+  opacity:1;
+}
+#rb.wave .rb-wave-arcs i:nth-child(1){ animation:wave-arc-expand 1.4s ease-out .08s; }
+#rb.wave .rb-wave-arcs i:nth-child(2){ animation:wave-arc-expand 1.4s ease-out .32s; }
+#rb.wave .rb-wave-arcs i:nth-child(3){ animation:wave-arc-expand 1.4s ease-out .56s; }
+@keyframes wave-arc-expand{
+  0%{ transform:scale(0.2) rotate(-20deg); opacity:0; }
+  30%{ opacity:0.85; }
+  100%{ transform:scale(2.2) rotate(25deg); opacity:0; }
+}
+
+/* Compact Transitional Hero & Dynamic Specialization Blocks */
+.hero-c{
+  max-width:660px;
+}
+.hero-rotator-badge{
+  font:500 12.5px/1 var(--sans);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ac);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 18px;
+  border:1px solid rgba(77,225,255,0.3);
+  border-radius:99px;
+  background:rgba(9,14,24,0.68);
+  backdrop-filter:blur(14px);
+  margin-bottom:8px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.3);
+}
+.hero-rotator-badge .live-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--ac);
+  box-shadow:0 0 8px var(--ac);
+  animation:bk 1.4s infinite;
+}
+.badge-dynamic{
+  font-weight:600;
+  color:var(--fg);
+  display:inline-block;
+  transition:opacity .3s, transform .3s;
+}
+
+.hero-name{
+  font:400 clamp(54px, 7.5vw, 104px)/1.02 var(--ser);
+  letter-spacing:-.025em;
+  margin:6px 0 16px;
+}
+
+.hero-trans-card{
+  margin-top:8px;
+  padding:22px 26px;
+  background:var(--panel-bg);
+  border:1px solid var(--ln);
+  border-radius:18px;
+  backdrop-filter:blur(16px);
+  max-width:620px;
+  position:relative;
+  transition:border-color .4s, box-shadow .4s;
+}
+.hero-trans-card:hover{
+  border-color:rgba(77,225,255,0.4);
+  box-shadow:0 10px 34px rgba(0,0,0,0.45);
+}
+.trans-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:12px;
+}
+.trans-tag{
+  font:600 11px var(--sans);
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ac);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.trans-tag::before{
+  content:"";
+  display:inline-block;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--ac);
+  box-shadow:0 0 6px var(--ac);
+}
+.trans-step-pills{
+  display:flex;
+  gap:6px;
+}
+.trans-step-dot{
+  width:16px;
+  height:3px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.18);
+  transition:background .35s, width .35s;
+}
+.trans-step-dot.active{
+  background:var(--ac);
+  width:28px;
+  box-shadow:0 0 8px var(--ac);
+}
+.trans-headline{
+  font:400 clamp(24px, 2.5vw, 34px)/1.15 var(--ser);
+  color:var(--fg);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:40px;
+}
+.trans-headline .icon{
+  color:var(--ac);
+  font-size:0.75em;
+}
+.trans-text{
+  display:inline-block;
+  transition:opacity .3s, transform .3s;
+}
+.trans-desc{
+  color:var(--mut);
+  font-size:14.5px;
+  line-height:1.55;
+  margin-top:8px;
+  transition:opacity .3s;
+}
+
+.floor-shadow{
+  position:absolute;
+  bottom:8%;
+  left:50%;
+  width:200px;
+  height:24px;
+  translate:-50% 0;
+  background:radial-gradient(ellipse at center,rgba(77,225,255,.45) 0%,rgba(77,225,255,.1) 50%,transparent 75%);
+  border-radius:50%;
+  animation:pl 2.2s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes pl{50%{transform:scale(1.35);opacity:.35}}
+
+/* Content Section Layout */
+.s{min-height:100vh;padding:14vh 5vw 10vh;display:flex;align-items:center;position:relative;z-index:2;scroll-snap-align:start}
+.s.r{justify-content:flex-end}
+.c{width:min(100%,calc(100vw - var(--sw) - 14vw),680px)}
+
+/* Typography */
+h1,h2{font-family:var(--ser);font-weight:400;letter-spacing:-.025em;line-height:1.04}
+h1{font-size:clamp(46px,6.2vw,96px)}
+h2{font-size:clamp(38px,4.6vw,70px)}
+.k{font:500 14px var(--sans);letter-spacing:.08em;color:var(--ac);margin-bottom:20px;display:inline-flex;align-items:center;gap:8px}
+.k::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 6px var(--ac)}
+.lead{color:var(--mut);font-size:clamp(17px,1.3vw,20px);margin-top:24px;max-width:580px;line-height:1.6}
+
+/* Word Reveal Effect */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .05em .12em;margin-bottom:-.12em}
+.w>span{display:inline-block;transform:none;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.s:not(.in) .w>span{transform:translateY(115%)}
+
+/* Staggered Scroll Transitions */
+.rv{opacity:1;transform:none;transition:opacity .6s ease-out,transform .6s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--i,0)*60ms + 60ms)}
+.s:not(.in) .rv{opacity:0;transform:translateY(20px)}
+
+/* Action Buttons */
+.bt{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px}
+.b{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border-radius:99px;border:1px solid var(--ln);font:500 15px var(--sans);cursor:pointer;background:none;color:var(--fg);transition:transform .4s,background .3s,border-color .3s,box-shadow .3s}
+.b:hover{transform:translateY(-3px);border-color:var(--ac);box-shadow:0 6px 24px rgba(77,225,255,.15)}
+.b.p{background:var(--fg);color:var(--bg);font-weight:600}
+.b.p:hover{background:var(--ac);color:var(--bg);border-color:var(--ac)}
+
+
+
+/* Interactive Tabs */
+.tabs{display:flex;gap:6px;margin-top:34px;border-bottom:1px solid var(--ln);position:relative}
+.tb{background:none;border:0;color:var(--mut);font:500 16px var(--sans);padding:12px 18px;cursor:pointer;transition:color .3s}
+.tb.on,.tb:hover{color:var(--fg)}
+#ind{position:absolute;bottom:-1px;left:0;height:2px;background:var(--ac);width:0;box-shadow:0 0 10px var(--ac);transition:transform .5s cubic-bezier(.7,0,.2,1),width .5s}
+
+.pns{display:grid;margin-top:24px}
+.pn{grid-area:1/1;opacity:0;transform:translateX(34px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);pointer-events:none;color:var(--mut)}
+.pn.on{opacity:1;transform:none;pointer-events:auto}
+.pn p{font-size:16px;line-height:1.65;color:var(--fg);max-width:580px}
+
+/* Tech Chips */
+.ch{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.ch span{font:500 13px var(--sans);padding:6px 14px;border:1px solid var(--ln);border-radius:99px;color:var(--fg);background:rgba(255,255,255,.03);transition:border-color .3s,background .3s,color .3s}
+.ch span:hover{border-color:var(--ac);background:rgba(77,225,255,.08);color:var(--ac)}
+.s:not(.in) .ch span{opacity:0}
+.in .ch span{animation:pop .7s backwards}
+@keyframes pop{from{opacity:0;transform:translateY(12px) scale(.95)}}
+
+/* Cybersecurity & Honest Tier Cards */
+.cyber-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:34px}
+.cyber-card{
+  padding:26px 28px;
+  border:1px solid var(--ln);
+  border-radius:18px;
+  background:var(--panel-bg);
+  backdrop-filter:blur(16px);
+  transition:border-color .4s,transform .4s,box-shadow .4s;
+}
+.cyber-card:hover{
+  border-color:rgba(77,225,255,.4);
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(0,0,0,.45);
+}
+.cyber-tag{font:500 12px/1 var(--sans);letter-spacing:.12em;color:var(--ac);text-transform:uppercase;margin-bottom:8px;display:block}
+.cyber-card h3{font:400 clamp(22px,2.2vw,30px)/1.15 var(--ser);margin-bottom:12px;color:var(--fg)}
+.cyber-card p{color:var(--mut);font-size:15.5px;line-height:1.6}
+
+/* Timeline Frontiers */
+.tl{position:relative;margin-top:40px;padding-left:44px}
+.tl::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:1px;background:linear-gradient(var(--ac),transparent);transform:scaleY(0);transform-origin:top;transition:transform 1.8s cubic-bezier(.5,0,.2,1) .3s}
+.in .tl::before{transform:none}
+.tp{position:relative;padding-bottom:34px}
+.tp::before{content:"";position:absolute;left:-39px;top:9px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:1px solid var(--ac);animation:ring 2.4s infinite}
+@keyframes ring{from{box-shadow:0 0 0 0 rgba(77,225,255,.5)}to{box-shadow:0 0 0 12px transparent}}
+.tp small{font-size:13px;letter-spacing:.08em;color:var(--ac);text-transform:uppercase;font-weight:500;display:block;margin-bottom:4px}
+.tp h3{font:400 clamp(24px,2.4vw,34px)/1.15 var(--ser);margin:4px 0 8px;color:var(--fg)}
+.tp p{color:var(--mut);font-size:16px;line-height:1.6}
+
+/* Competency Tiers */
+.tier{padding:24px 0;border-top:1px solid var(--ln);display:grid;grid-template-columns:160px 1fr;gap:20px;align-items:start}
+.tier h4{font:500 17px var(--sans);line-height:1.3}
+.tier h4 small{display:block;color:var(--mut);font-weight:400;font-size:13.5px;margin-top:3px}
+.tier .ch{margin-top:0}
+
+/* Contact Rows */
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;border-top:1px solid var(--ln);transition:padding .4s,color .3s}
+.row:hover{padding-left:14px;color:var(--ac)}
+.row small{display:block;color:var(--mut);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.row a{font-size:16px}
+.ft{margin-top:44px;color:var(--mut);font-size:14px;border-top:1px solid var(--ln);padding-top:20px}
+
+/* Mobile & Tablet Responsiveness */
+@media(max-width:900px){
+  :root{--sw:80vw}
+  #stage{right:-16vw;opacity:.18;pointer-events:none}
+  #stage.L{transform:none}
+  .c{width:100%}
+  .s.r{justify-content:flex-start}
+  nav a:not(:last-child){display:none}
+  .tier{grid-template-columns:1fr;gap:12px}
+  .st{gap:24px}
+  #tag,#hint,#hud{display:none}
+}
+
+/* Accessibility / Reduced Motion */
+@media(prefers-reduced-motion:reduce){
+  *,::before,::after{animation:none!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .w>span,.rv{opacity:1!important;transform:none!important}
+}
+</style>
 </head>
-<body class="theme-dark">
+<body>
 
-  <!-- Top Scroll Reading Progress Indicator -->
-  <div class="scroll-progress-line" id="scroll-progress-line" aria-hidden="true"></div>
+<div id="pg"></div>
+<div id="bg"></div>
+<div id="floor"></div>
+<canvas id="net"></canvas>
+<canvas id="fx"></canvas>
+<div id="cr"></div>
+<div id="cu"></div>
 
-  <!-- Accessible Skip Link -->
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+<!-- Telemetry HUD -->
+<div id="hud">
+  <div><i></i>UNIT 01 ONLINE</div>
+  <div id="hx">X 0000 Y 0000</div>
+  <div id="hs">SEC HERO</div>
+</div>
 
-  <!-- Line-Draw Preloader (Max 1.2s, Skippable) -->
-  <aside id="preloader" class="preloader" aria-label="Page loading">
-    <div class="preloader-inner">
-      <svg class="preloader-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <circle class="draw-path circle-outer" cx="50" cy="50" r="42" stroke="#00E5FF" stroke-width="2" stroke-dasharray="270" stroke-dashoffset="270" />
-        <circle class="draw-path circle-inner" cx="50" cy="50" r="18" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="120" stroke-dashoffset="120" />
-        <line class="draw-path line-v" x1="50" y1="8" x2="50" y2="32" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
-        <line class="draw-path line-v2" x1="50" y1="68" x2="50" y2="92" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
-        <line class="draw-path line-h" x1="8" y1="50" x2="32" y2="50" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
-        <line class="draw-path line-h2" x1="68" y1="50" x2="92" y2="50" stroke="#00E5FF" stroke-width="2" stroke-dasharray="24" stroke-dashoffset="24" />
-      </svg>
-      <div class="preloader-meta">
-        <span class="preloader-name">ADITYA DAHAKE</span>
-        <span class="preloader-sub">ROBOTICS &amp; AUTOMATION</span>
+<!-- System Boot Splash -->
+<div id="boot">
+  <div>
+    SYSTEM BOOT
+    <b id="bn">0</b>
+    ADITYA DAHAKE / ROBOTICS &amp; CYBER-PHYSICAL SYSTEMS
+  </div>
+</div>
+
+<!-- Site Header -->
+<header>
+  <a class="lg" href="#hero">Aditya Dahake</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#cyber">Cybersecurity</a>
+    <a href="#frontiers">Frontiers</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- Robot Stage (Centerpiece) -->
+<div id="stage" aria-hidden="true">
+  <div id="tag">Hi, I'm the demo unit.</div>
+  <div class="cone"></div>
+  
+  <div id="rb" title="Click to interact with robot unit">
+    <div class="rb-body">
+      <img src="assets/images/real-robot.webp" width="220" height="640" alt="Autonomous Humanoid Robot Unit" />
+      
+      <!-- Aesthetic Robot Cyber Faceplate & Prominent Glowing Eyes -->
+      <div class="rb-face" aria-hidden="true">
+        <div class="rb-sensor-dot"></div>
+        <div class="rb-brow-arc"></div>
+        
+        <div class="rb-eyes">
+          <div class="rb-eye left">
+            <div class="rb-pupil"></div>
+            <div class="rb-eye-glare"></div>
+          </div>
+          <div class="rb-eye right">
+            <div class="rb-pupil"></div>
+            <div class="rb-eye-glare"></div>
+          </div>
+        </div>
       </div>
-      <button id="skip-preloader" class="skip-preloader-btn" aria-label="Skip intro animation">Skip intro &rarr;</button>
-    </div>
-  </aside>
 
-  <!-- Non-Distracting Desktop Cursor -->
-  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
+      <!-- Holographic Wave Greeting Arcs -->
+      <div class="rb-wave-arcs" aria-hidden="true">
+        <i></i><i></i><i></i>
+      </div>
+    </div>
   </div>
 
-  <!-- Global Header -->
-  <header class="site-header" id="site-header">
-    <div class="header-inner">
-      <a href="#hero" class="brand-link" aria-label="Aditya Dahake - Return to top">
-        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" stroke-opacity="0.4" />
-          <circle cx="12" cy="12" r="3.5" fill="#00E5FF" stroke="none" />
-          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" stroke="#00E5FF" stroke-width="1.8" stroke-linecap="round" />
-        </svg>
-        <span class="brand-name">Aditya Dahake</span>
+  <div class="floor-shadow"></div>
+  <div id="hint">Touch the unit to interact</div>
+</div>
+
+<!-- ================= 01 HERO SECTION ================= -->
+<section class="s in" id="hero">
+  <div class="c hero-c">
+    
+    <!-- Dynamic Rotating Pill Badge (Continuous Transition) -->
+    <div class="hero-rotator-badge rv">
+      <span class="live-dot"></span>
+      <span>ACTIVE FOCUS &bull;</span>
+      <span class="badge-dynamic" id="badge-rotator">Robotics Engineer</span>
+    </div>
+    
+    <h1 class="hero-name" data-s>Aditya Dahake</h1>
+
+    <!-- Transitional Dynamic Tagline Card (Changing Continuously in Small Spacing) -->
+    <div class="hero-trans-card rv" style="--i:1">
+      <div class="trans-top">
+        <span class="trans-tag">DYNAMIC FOCUS</span>
+        <div class="trans-step-pills">
+          <span class="trans-step-dot active"></span>
+          <span class="trans-step-dot"></span>
+          <span class="trans-step-dot"></span>
+          <span class="trans-step-dot"></span>
+        </div>
+      </div>
+      <div class="trans-headline">
+        <span class="icon">✦</span>
+        <span class="trans-text" id="trans-rotator">Autonomous Navigation</span>
+      </div>
+      <p class="trans-desc" id="trans-sub">
+        Nav2 behavior trees, costmaps, dynamic obstacle avoidance &amp; recovery behaviors
+      </p>
+    </div>
+
+    <div class="bt rv" style="--i:2; margin-top:22px">
+      <a class="b p" href="#about">Explore Profile</a>
+      <a class="b" href="#cyber">Cybersecurity &amp; Hacking</a>
+      <a class="b" href="#contact">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 ABOUT SECTION (WHAT I'M IN) ================= -->
+<section class="s r" id="about">
+  <div class="c">
+    <span class="k rv">01 / Profile &amp; Core Discipline</span>
+    <h2 data-s>From planar navigation to full-body autonomy.</h2>
+    <p class="lead rv" style="--i:1">
+      I engineer autonomous navigation and SLAM pipelines: ROS 2 node graphs, deterministic state estimation, multi-sensor odometry, and simulation-to-hardware bring-up. The target is broader: dynamic multi-limbed locomotion, resilient aerial platforms, ethical hacking, and hardened cyber-physical architectures.
+    </p>
+    
+    <div class="tabs rv" style="--i:2">
+      <button class="tb on">Core Discipline</button>
+      <button class="tb">Current R&amp;D</button>
+      <button class="tb">Engineering Standard</button>
+      <i id="ind"></i>
+    </div>
+
+    <div class="pns rv" style="--i:3">
+      <div class="pn on">
+        <p>ROS 2 node architecture, Nav2 behavior trees, SLAM Toolbox mapping, and hands-on mechatronics bring-up with zero hand-waving.</p>
+        <div class="ch">
+          <span>ROS 2 Humble</span>
+          <span>Nav2 Behavior Trees</span>
+          <span>SLAM Toolbox</span>
+          <span>C++17 Architecture</span>
+          <span>Gazebo &amp; RViz2</span>
+          <span>Ubuntu 22.04 LTS</span>
+        </div>
+      </div>
+      <div class="pn">
+        <p>Validating perception, multi-sensor odometry (EKF), coordinate trees (TF2), and Livox Mid-360S 3D LiDAR point clouds in Gazebo simulation before physical hardware deployment.</p>
+        <div class="ch">
+          <span>Livox Mid-360S LiDAR</span>
+          <span>EKF Sensor Fusion</span>
+          <span>URDF / Xacro</span>
+          <span>Hardware Bring-Up</span>
+          <span>Coordinate Transforms (TF2)</span>
+        </div>
+      </div>
+      <div class="pn">
+        <p>Deterministic state estimation over black-box guesswork. Build verifiable mathematical models, rigorous simulation testbenches, and resilient middleware.</p>
+        <div class="ch">
+          <span>Deterministic State</span>
+          <span>Lifecycle Nodes</span>
+          <span>Fail-Safe Recovery</span>
+          <span>Real-Time Core</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 CYBERSECURITY LEARNING SECTION ================= -->
+<section class="s" id="cyber">
+  <div class="c">
+    <span class="k rv">02 / Active Learning &amp; Hardening</span>
+    <h2 data-s>Securing the nervous system of autonomous machines.</h2>
+    <p class="lead rv" style="--i:1">
+      Robots are distributed computing clusters on wheels and legs. In production environments, an unauthenticated topic, unencrypted DDS channel, or spoofed sensor frame is a direct physical hazard. Here is how I am expanding into robotics cybersecurity, ethical hacking, and transport defense.
+    </p>
+
+    <div class="cyber-grid rv" style="--i:2">
+      
+      <!-- Card 1: SROS 2 & Middleware -->
+      <article class="cyber-card">
+        <span class="cyber-tag">Cryptographic Access &bull; Middleware</span>
+        <h3>SROS 2 &amp; DDS Transport Security</h3>
+        <p>
+          Configuring SROS 2 keystores, PKI certificate authorities, and S/MIME topic encryption across CycloneDDS and FastDDS. Enforcing strict XML governance policies so rogue nodes cannot subscribe to sensitive camera feeds or publish unauthorized <code>/cmd_vel</code> actuator commands.
+        </p>
+        <div class="ch">
+          <span>SROS 2</span>
+          <span>DDS Security Plugins</span>
+          <span>PKI Governance</span>
+          <span>Topic Access Control</span>
+          <span>Encrypted Telemetry</span>
+        </div>
+      </article>
+
+      <!-- Card 2: Network Isolation & Boundaries -->
+      <article class="cyber-card">
+        <span class="cyber-tag">Zero-Trust Boundaries &bull; Network</span>
+        <h3>Network Isolation &amp; Telemetry Integrity</h3>
+        <p>
+          Defending against lateral network compromise. Implementing iptables and nftables firewalls on Ubuntu Linux, dedicated VLAN isolation for perception LIDARs versus motor controllers, and mutual TLS (mTLS) for remote fleet management.
+        </p>
+        <div class="ch">
+          <span>VLAN Segmentation</span>
+          <span>Linux nftables</span>
+          <span>mTLS Fleet Gateways</span>
+          <span>Socket Hardening</span>
+        </div>
+      </article>
+
+      <!-- Card 3: Rogue Node & Actuator Protection -->
+      <article class="cyber-card">
+        <span class="cyber-tag">Integrity &bull; Threat Mitigation</span>
+        <h3>Rogue Node Injection &amp; Replay Mitigation</h3>
+        <p>
+          Preventing unauthorized ROS 2 node discovery on open local networks through <code>ROS_DOMAIN_ID</code> isolation, topic whitelisting, and cryptographic signing on time-critical sensor streams to prevent physical actuation hijack.
+        </p>
+        <div class="ch">
+          <span>Rogue Node Defense</span>
+          <span>ROS_DOMAIN_ID</span>
+          <span>Replay Attack Prevention</span>
+          <span>Sensor Signature Checks</span>
+        </div>
+      </article>
+
+      <!-- Card 4: Embedded Root of Trust -->
+      <article class="cyber-card">
+        <span class="cyber-tag">Hardware Defense &bull; Silicon Edge</span>
+        <h3>Embedded Firmware &amp; Hardware Root of Trust</h3>
+        <p>
+          Securing the edge: secure boot validation on ESP32 microcontrollers, encrypted non-volatile storage (NVS) for credentials, signed firmware OTA updates, and CAN bus monitoring to prevent bus-injection attacks on motor drivers.
+        </p>
+        <div class="ch">
+          <span>ESP32 Secure Boot</span>
+          <span>NVS Flash Encryption</span>
+          <span>Signed Firmware OTA</span>
+          <span>CAN Bus Integrity</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 ACTIVE FRONTIERS (WHAT I'M EAGER TO LEARN) ================= -->
+<section class="s r" id="frontiers">
+  <div class="c">
+    <span class="k rv">03 / Target Trajectory</span>
+    <h2 data-s>The frontiers I'm eager to master.</h2>
+    <p class="lead rv" style="--i:1">
+      Navigation on flat ground is my launchpad. These are the active frontiers driving my research and continuous learning—scaling from wheels to dynamic bipedal locomotion, flight autonomy, and ethical penetration testing of autonomous fleets.
+    </p>
+
+    <div class="tl rv" style="--i:2">
+      
+      <div class="tp">
+        <small>Offensive Security &bull; Ethical Hacking</small>
+        <h3>Ethical Hacking &amp; Robot Penetration Testing</h3>
+        <p>
+          Mastering offensive cybersecurity and red-teaming methodologies to audit and fortify autonomous machines: Wireshark packet capture &amp; protocol reverse-engineering on DDS/ROS 2 networks, fuzzing topic publishers and service callbacks to test fault tolerance, unauthorized rogue node injection, UART/JTAG hardware bus extraction, and CAN bus vulnerability exploitation testing before adversaries can compromise physical systems.
+        </p>
+        <div class="ch">
+          <span>Ethical Hacking</span>
+          <span>Penetration Testing</span>
+          <span>Wireshark Protocol Analysis</span>
+          <span>DDS Fuzzing</span>
+          <span>Hardware Hacking (UART/JTAG)</span>
+          <span>CAN Bus Vulnerability Testing</span>
+          <span>Red-Team Fleet Audits</span>
+        </div>
+      </div>
+
+      <div class="tp">
+        <small>Primary Horizon &bull; Active Research</small>
+        <h3>Humanoid Robotics &amp; Dynamic Locomotion</h3>
+        <p>
+          Scaling 2D navigation into dynamic bipedal locomotion. High-DOF kinematics, Zero-Moment Point (ZMP) stability, Model Predictive Control (MPC) for footsteps, centroidal dynamics, and whole-body control on uneven physical terrain.
+        </p>
+        <div class="ch">
+          <span>Bipedal Kinematics</span>
+          <span>ZMP Balance Control</span>
+          <span>Model Predictive Control</span>
+          <span>Centroidal Dynamics</span>
+          <span>Whole-Body Telemetry</span>
+        </div>
+      </div>
+
+      <div class="tp">
+        <small>Spatial Expansion &bull; Flight Autonomy</small>
+        <h3>Aerial Robotics &amp; Drones</h3>
+        <p>
+          PX4 autopilot architecture, 3D geometric trajectory planning, visual-inertial odometry (VIO), and agile quadrotor control in GPS-denied indoor and industrial environments.
+        </p>
+        <div class="ch">
+          <span>PX4 Autopilot Stack</span>
+          <span>Visual-Inertial Odometry</span>
+          <span>3D Geometric Planning</span>
+          <span>MAVLink Protocol</span>
+          <span>Optical Flow</span>
+        </div>
+      </div>
+
+      <div class="tp">
+        <small>Hardened Systems &bull; Cyber-Physical Defense</small>
+        <h3>Robotics Cybersecurity &amp; Fleet Resilience</h3>
+        <p>
+          Developing formal threat models for autonomous fleets, securing cloud-to-robot telemetry pipelines, and implementing cryptographic attestation for remote software updates on critical robotic infrastructure.
+        </p>
+        <div class="ch">
+          <span>Fleet Threat Modeling</span>
+          <span>Cryptographic Attestation</span>
+          <span>Hardware Security Modules</span>
+          <span>Zero-Trust Robotics</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 SKILLS COMPETENCY SECTION ================= -->
+<section class="s" id="skills">
+  <div class="c">
+    <span class="k rv">04 / Competencies</span>
+    <h2 data-s>What I use daily, and what I'm actively learning.</h2>
+    <p class="lead rv" style="--i:1">
+      No percentage bars. A percentage says nothing a hiring manager can verify, so competencies are transparently grouped by daily operational production use, applied project experience, and active research frontiers.
+    </p>
+
+    <div style="margin-top:34px" class="rv" style="--i:2">
+      
+      <div class="tier">
+        <h4>Daily<small>In production use</small></h4>
+        <div class="ch">
+          <span>ROS 2 Humble</span>
+          <span>Nav2 Behavior Trees</span>
+          <span>SLAM Toolbox</span>
+          <span>Gazebo &amp; RViz2</span>
+          <span>Modern C++ (C++17)</span>
+          <span>Python 3</span>
+          <span>Linux (Ubuntu 22.04 LTS)</span>
+          <span>Livox Mid-360S LiDAR</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <h4>Applied<small>Used on systems &amp; prototypes</small></h4>
+        <div class="ch">
+          <span>Embedded Mechatronics (ESP32)</span>
+          <span>ESP-SR Edge Audio</span>
+          <span>URDF / Xacro Modeling</span>
+          <span>EKF Sensor Fusion</span>
+          <span>FreeRTOS Embedded Tasks</span>
+          <span>I2S / SPI Peripherals</span>
+          <span>UART Telemetry</span>
+        </div>
+      </div>
+
+      <div class="tier">
+        <h4>Active Frontiers<small>Currently learning &amp; researching</small></h4>
+        <div class="ch">
+          <span>Ethical Hacking &amp; Pen-Testing</span>
+          <span>SROS 2 &amp; DDS Security</span>
+          <span>Hardware Hacking (UART/JTAG)</span>
+          <span>Bipedal Locomotion &amp; ZMP</span>
+          <span>PX4 Flight Stack &amp; VIO</span>
+          <span>Whole-Body Balance Control</span>
+          <span>Linux Network Hardening</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 CONTACT SECTION ================= -->
+<section class="s r" id="contact">
+  <div class="c">
+    <span class="k rv">05 / Connect</span>
+    <h2 data-s>Let's build something intelligent and secure.</h2>
+    <p class="lead rv" style="--i:1">
+      I'm open to technical conversations with robotics teams, hiring managers, R&amp;D groups, and researchers building autonomous systems.
+    </p>
+
+    <div style="margin-top:34px" class="rv" style="--i:2">
+      <div class="row">
+        <div>
+          <small>Direct Email</small>
+          <a href="mailto:adityadahake18@gmail.com">adityadahake18@gmail.com</a>
+        </div>
+        <button class="b" id="cp" aria-label="Copy email address to clipboard">Copy</button>
+      </div>
+
+      <a class="row" href="https://www.linkedin.com/in/aditya-dahake-a10a3a279" target="_blank" rel="noopener">
+        <div>
+          <small>LinkedIn</small>
+          aditya-dahake-a10a3a279
+        </div>
+        <span>&rarr;</span>
       </a>
 
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#projects" class="nav-link">Projects</a>
-        <a href="#skills" class="nav-link">Skills</a>
-        <a href="#next" class="nav-link">Next</a>
-        <a href="#contact" class="nav-link nav-cta">Contact</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Main Viewport Split Container -->
-  <div class="viewport-split">
-
-    <!-- RIGHT/TOP: Fixed (Desktop) & Sticky (Mobile) 3D Humanoid Stage -->
-    <div class="stage-wrap" id="stage-wrap" aria-label="Interactive 3D Humanoid Robot Display">
-      <canvas id="stage-canvas"></canvas>
-      <img id="stage-fallback" class="stage-fallback-img" src="assets/images/humanoid-poster.webp" alt="3D Humanoid Robot Model" />
-
-      <!-- Interactive 3D Motion HUD & Animation Switcher -->
-      <div class="stage-hud" id="stage-hud" aria-label="Humanoid Motion Controller">
-        <div class="hud-header">
-          <span class="hud-status-dot"></span>
-          <span class="hud-title">HUMANOID TELEMETRY</span>
-          <span class="hud-badge" id="hud-anim-badge">IDLE</span>
+      <a class="row" href="https://github.com/AdityaDahake18" target="_blank" rel="noopener">
+        <div>
+          <small>GitHub</small>
+          AdityaDahake18
         </div>
-        <div class="hud-controls" role="toolbar" aria-label="Robot Animation Switcher">
-          <button class="hud-btn active" data-anim="idle" aria-label="Switch to idle stance" title="Natural Breathing Stance">
-            <span class="hud-btn-icon">⏵</span>
-            <span class="hud-btn-text">Idle</span>
-          </button>
-          <button class="hud-btn" data-anim="walk" aria-label="Switch to walking gait" title="Autonomous Navigation Gait">
-            <span class="hud-btn-icon">🚶</span>
-            <span class="hud-btn-text">Walk</span>
-          </button>
-          <button class="hud-btn" data-anim="run" aria-label="Switch to running sprint" title="Dynamic Velocity Sprint">
-            <span class="hud-btn-icon">⚡</span>
-            <span class="hud-btn-text">Run</span>
-          </button>
-          <button class="hud-btn" data-anim="agree" aria-label="Switch to nodding gesture" title="Attentive Nod Gesture">
-            <span class="hud-btn-icon">👋</span>
-            <span class="hud-btn-text">Nod</span>
-          </button>
-          <button class="hud-btn" data-anim="sneak_pose" aria-label="Switch to scan pose" title="Perception Scan Stance">
-            <span class="hud-btn-icon">🎯</span>
-            <span class="hud-btn-text">Scan</span>
-          </button>
-          <button class="hud-btn" data-anim="headShake" aria-label="Switch to sensor radar sweep" title="Sensor Sweep Scan">
-            <span class="hud-btn-icon">📡</span>
-            <span class="hud-btn-text">Radar</span>
-          </button>
-        </div>
-      </div>
+        <span>&rarr;</span>
+      </a>
 
-      <!-- Interactive drag / revolve hint -->
-      <div class="stage-overlay" id="stage-overlay" aria-hidden="true">
-        <div class="drag-badge">
-          <span class="badge-icon">↺</span>
-          <span class="badge-text">Drag to rotate humanoid 360°</span>
+      <div class="row">
+        <div>
+          <small>Availability</small>
+          <span>Open to Robotics Engineering Internships &amp; R&amp;D Roles</span>
         </div>
+        <span style="color:var(--ac)">✦ Active</span>
       </div>
     </div>
 
-    <!-- LEFT: Frosted-Glass Dark Content Panel (WCAG AAA >= 7:1 Contrast) -->
-    <main class="content-scroll-container" id="main-content">
-
-      <!-- ================= 01 HERO ================= -->
-      <section class="content-section" id="hero" aria-labelledby="hero-title">
-        <div class="content-panel hero-panel">
-          <div class="kicker-badge">
-            <span class="kicker-pulse"></span>
-            <span class="kicker-text">Robotics Engineering Student &bull; R&amp;D Intern</span>
-          </div>
-
-          <h1 class="hero-title" id="hero-title">
-            Aditya Dahake
-          </h1>
-
-          <div class="hero-rotating-line" aria-live="polite">
-            <span class="rotating-prefix">Focus: </span>
-            <span class="rotating-track" id="rotating-track">Autonomous Navigation</span>
-          </div>
-
-          <p class="hero-mission">
-            Robotics engineer building toward humanoids, with navigation and SLAM as a proven foundation.
-          </p>
-
-          <div class="hero-actions">
-            <a href="#projects" class="btn btn-primary">
-              <span>View Projects</span>
-              <span class="btn-arrow">&rarr;</span>
-            </a>
-            <a href="#contact" class="btn btn-secondary">
-              <span>Contact</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 02 ABOUT ================= -->
-      <section class="content-section" id="about" aria-labelledby="about-heading">
-        <div class="content-panel">
-          <div class="section-label">01 / Profile</div>
-          <h2 class="section-heading" id="about-heading">About Me</h2>
-
-          <!-- Max 60 words concise summary -->
-          <p class="section-summary">
-            Robotics and automation engineering student focused on autonomous navigation, SLAM, and mobile robotics. My work spans ROS 2 pipelines, sensor integration, and embedded mechatronics. I use navigation and state estimation as a proven foundation to build toward advanced humanoid robotics and aerial systems.
-          </p>
-
-          <!-- Interactive Sliding Profile Spec Deck (Non-boxy fluid switcher) -->
-          <div class="sliding-profile-deck">
-            <div class="deck-nav" role="tablist" aria-label="Profile dimensions">
-              <button class="deck-tab active" role="tab" aria-selected="true" data-deck="discipline">
-                <span class="tab-dot"></span>
-                <span>Core Discipline</span>
-              </button>
-              <button class="deck-tab" role="tab" aria-selected="false" data-deck="trajectory">
-                <span class="tab-dot"></span>
-                <span>System Trajectory</span>
-              </button>
-              <button class="deck-tab" role="tab" aria-selected="false" data-deck="stack">
-                <span class="tab-dot"></span>
-                <span>Core Telemetry</span>
-              </button>
-            </div>
-
-            <div class="deck-panels-viewport">
-              <!-- Panel 1: Core Discipline -->
-              <div class="deck-slide active" id="deck-discipline" role="tabpanel">
-                <div class="deck-spec-header">
-                  <span class="spec-category">PERCEPTION &bull; CONTROL</span>
-                  <span class="spec-status">Deterministic State Estimation</span>
-                </div>
-                <p class="deck-text">
-                  Specializing in deterministic state estimation, ROS 2 Humble node architecture, Nav2 behavior trees, and physical mechatronics bring-up with zero hand-waving.
-                </p>
-                <div class="deck-tech-tags">
-                  <span class="tech-chip">ROS 2 Humble</span>
-                  <span class="tech-chip">Nav2 Behavior Trees</span>
-                  <span class="tech-chip">SLAM Toolbox</span>
-                  <span class="tech-chip">C++17 Architecture</span>
-                </div>
-              </div>
-
-              <!-- Panel 2: System Trajectory -->
-              <div class="deck-slide" id="deck-trajectory" role="tabpanel">
-                <div class="deck-spec-header">
-                  <span class="spec-category">EXPANSION PATH</span>
-                  <span class="spec-status">Planar &rarr; Bipedal &rarr; Aerial</span>
-                </div>
-                <p class="deck-text">
-                  Extending proven planar navigation and spatial perception principles to dynamic multi-limbed humanoid locomotion and aerial drone autonomy.
-                </p>
-                <div class="deck-tech-tags">
-                  <span class="tech-chip">Humanoid Kinematics</span>
-                  <span class="tech-chip">Aerial Flight Dynamics</span>
-                  <span class="tech-chip">3D LiDAR Perception</span>
-                  <span class="tech-chip">Multi-Sensor Odometry</span>
-                </div>
-              </div>
-
-              <!-- Panel 3: Operational Telemetry -->
-              <div class="deck-slide" id="deck-stack" role="tabpanel">
-                <div class="deck-telemetry-stream">
-                  <div class="tel-stream-row">
-                    <div class="tel-stream-meta">
-                      <span class="tel-stream-bullet"></span>
-                      <span class="tel-label">PRIMARY PLATFORM</span>
-                    </div>
-                    <span class="tel-val">Linux / ROS 2 Humble</span>
-                  </div>
-                  <div class="tel-stream-row">
-                    <div class="tel-stream-meta">
-                      <span class="tel-stream-bullet"></span>
-                      <span class="tel-label">ACTIVE ROLE</span>
-                    </div>
-                    <span class="tel-val">R&amp;D Robotics Intern</span>
-                  </div>
-                  <div class="tel-stream-row">
-                    <div class="tel-stream-meta">
-                      <span class="tel-stream-bullet"></span>
-                      <span class="tel-label">CORE DOMAIN</span>
-                    </div>
-                    <span class="tel-val">Autonomous Nav &amp; SLAM</span>
-                  </div>
-                  <div class="tel-stream-row">
-                    <div class="tel-stream-meta">
-                      <span class="tel-stream-bullet"></span>
-                      <span class="tel-label">SIM VALIDATION</span>
-                    </div>
-                    <span class="tel-val">Gazebo &amp; RViz2 60 FPS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 03 PROJECTS ================= -->
-      <section class="content-section" id="projects" aria-labelledby="projects-heading">
-        <div class="content-panel">
-          <div class="section-header-row">
-            <div>
-              <div class="section-label">02 / Engineering Work</div>
-              <h2 class="section-heading" id="projects-heading">Featured Projects</h2>
-            </div>
-            <!-- Horizontal gallery buttons -->
-            <div class="gallery-controls" aria-label="Projects carousel controls">
-              <button id="gallery-prev" class="gallery-btn" aria-label="Previous project">&larr;</button>
-              <span id="gallery-counter" class="gallery-counter" aria-live="polite">01 / 04</span>
-              <button id="gallery-next" class="gallery-btn" aria-label="Next project">&rarr;</button>
-            </div>
-          </div>
-
-          <p class="section-summary">
-            Practical robotics implementations spanning autonomous mobile navigation, multi-legged locomotion, embedded AI cognition, and 3D LiDAR bring-up. Tested from high-fidelity Gazebo simulation to physical embedded platforms.
-          </p>
-
-          <!-- Horizontal Slide Gallery (Scroll-snap, Drag, Keyboard Navigation) -->
-          <div class="projects-gallery" id="projects-gallery" tabindex="0" role="region" aria-label="Projects slide gallery">
-            
-            <!-- Project 1: Full Sim Navigation Stack -->
-            <article class="project-card" data-index="1">
-              <div class="project-media-wrap">
-                <img src="assets/projects/nav-stack.webp" alt="Simulation Navigation Stack in Gazebo and RViz2" class="project-media" loading="lazy" />
-                <span class="project-badge">Simulation &bull; Moving to Hardware</span>
-              </div>
-              <div class="project-body">
-                <h3 class="project-title">Full Sim Navigation Stack</h3>
-                <div class="project-meta-list">
-                  <div class="meta-item"><span class="meta-label">Role:</span> Navigation &amp; SLAM Architecture</div>
-                  <div class="meta-item"><span class="meta-label">Stack:</span> ROS 2 Humble, Nav2, SLAM Toolbox, Gazebo, RViz, URDF/Xacro</div>
-                  <div class="meta-item"><span class="meta-label">Outcome:</span> Fully autonomous waypoint navigation, dynamic costmap generation, and obstacle avoidance validated in sim; currently transitioning to physical base.</div>
-                </div>
-
-                <div class="fill-callout">
-                  <span class="fill-tag">[FILL]</span>
-                  <span>Simulation demo video / screenshot and physical base details.</span>
-                </div>
-
-                <div class="project-actions">
-                  <button class="read-more-btn" aria-expanded="false" aria-controls="p1-details">
-                    <span class="rm-text">Read technical details</span>
-                    <span class="rm-icon">+</span>
-                  </button>
-                  <div class="project-repo-link">
-                    <span class="fill-pill">[FILL: Code upon request]</span>
-                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
-                  </div>
-                </div>
-
-                <div id="p1-details" class="read-more-content" hidden>
-                  <p>
-                    Engineered complete robot description package with modular URDF and Xacro transmission macros. Configured Nav2 stack using Behavior Tree navigator with recovery plugins for dynamic obstacle avoidance. Configured SLAM Toolbox for online synchronous mapping and loop-closure optimization.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 2: Hexapod -->
-            <article class="project-card" data-index="2">
-              <div class="project-media-wrap">
-                <img src="assets/projects/hexapod.webp" alt="18-DOF Legged Hexapod Robot" class="project-media" loading="lazy" />
-                <span class="project-badge">18-DOF Legged Machine</span>
-              </div>
-              <div class="project-body">
-                <h3 class="project-title">18-DOF Legged Hexapod</h3>
-                <div class="project-meta-list">
-                  <div class="meta-item"><span class="meta-label">Role:</span> Kinematics &amp; Locomotion</div>
-                  <div class="meta-item"><span class="meta-label">Stack:</span> Inverse Kinematics, Gait Sequencing, Servo Control, C++</div>
-                  <div class="meta-item"><span class="meta-label">Outcome:</span> 18-DOF hexapod platform executing tripod and wave gait algorithms for stable omnidirectional locomotion across uneven surfaces.</div>
-                </div>
-
-                <div class="fill-callout">
-                  <span class="fill-tag">[FILL]</span>
-                  <span>Hexapod walking video, leg assembly photos, and controller specs.</span>
-                </div>
-
-                <div class="project-actions">
-                  <button class="read-more-btn" aria-expanded="false" aria-controls="p2-details">
-                    <span class="rm-text">Read technical details</span>
-                    <span class="rm-icon">+</span>
-                  </button>
-                  <div class="project-repo-link">
-                    <span class="fill-pill">[FILL: Code upon request]</span>
-                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
-                  </div>
-                </div>
-
-                <div id="p2-details" class="read-more-content" hidden>
-                  <p>
-                    Developed analytical 3-DOF inverse kinematics for each leg limb. Implemented periodic gait sequencers to maintain static stability margins and support polygon integrity during body translations and pitch/roll tilt adjustments.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 3: EMO-Style Desktop Robot -->
-            <article class="project-card" data-index="3">
-              <div class="project-media-wrap">
-                <img src="assets/projects/emo-robot.webp" alt="EMO-style Desktop Robot with 1.3 inch display" class="project-media" loading="lazy" />
-                <span class="project-badge">Embedded Mechatronics &amp; AI</span>
-              </div>
-              <div class="project-body">
-                <h3 class="project-title">EMO-Style Desktop Robot</h3>
-                <div class="project-meta-list">
-                  <div class="meta-item"><span class="meta-label">Role:</span> Embedded AI &amp; Interaction Architecture</div>
-                  <div class="meta-item"><span class="meta-label">Stack:</span> ESP32, ESP-SR (Wake Word), Cloud STT/LLM, 1.3&Prime; Display, NVS</div>
-                  <div class="meta-item"><span class="meta-label">Outcome:</span> Hybrid cognitive companion with offline wake-word detection, cloud LLM conversation pipeline, persistent mood state in NVS, and non-blocking 60fps render loop.</div>
-                </div>
-
-                <div class="fill-callout">
-                  <span class="fill-tag">[FILL]</span>
-                  <span>Desktop robot photos and conversational interaction video.</span>
-                </div>
-
-                <div class="project-actions">
-                  <button class="read-more-btn" aria-expanded="false" aria-controls="p3-details">
-                    <span class="rm-text">Read technical details</span>
-                    <span class="rm-icon">+</span>
-                  </button>
-                  <div class="project-repo-link">
-                    <span class="fill-pill">[FILL: Code upon request]</span>
-                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
-                  </div>
-                </div>
-
-                <div id="p3-details" class="read-more-content" hidden>
-                  <p>
-                    Architected dual-core task scheduling: Core 0 dedicated to real-time audio sampling, I2S microphone processing, and ESP-SR wake-word inference; Core 1 drives the 1.3&Prime; SPI display animation engine, emotion state transitions stored in Non-Volatile Storage (NVS), and Wi-Fi streaming.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 4: Livox Mid-360S Bring-up -->
-            <article class="project-card" data-index="4">
-              <div class="project-media-wrap">
-                <img src="assets/projects/livox-lidar.webp" alt="Livox Mid-360S Point Cloud in RViz2" class="project-media" loading="lazy" />
-                <span class="project-badge">3D Perception Sensor Bring-up</span>
-              </div>
-              <div class="project-body">
-                <h3 class="project-title">Livox Mid-360S ROS 2 Bring-Up</h3>
-                <div class="project-meta-list">
-                  <div class="meta-item"><span class="meta-label">Role:</span> Sensor Driver Integration &amp; Telemetry</div>
-                  <div class="meta-item"><span class="meta-label">Stack:</span> ROS 2 Humble, Livox-SDK2, livox_ros_driver2, Ubuntu 22.04</div>
-                  <div class="meta-item"><span class="meta-label">Outcome:</span> Verified high-frequency point clouds on <code>/livox/lidar</code> and synchronized 6-axis inertial telemetry on <code>/livox/imu</code> with zero packet drop.</div>
-                </div>
-
-                <div class="fill-callout">
-                  <span class="fill-tag">[FILL]</span>
-                  <span>High-resolution RViz point cloud screenshot from your sensor bring-up session.</span>
-                </div>
-
-                <div class="project-actions">
-                  <button class="read-more-btn" aria-expanded="false" aria-controls="p4-details">
-                    <span class="rm-text">Read technical details</span>
-                    <span class="rm-icon">+</span>
-                  </button>
-                  <div class="project-repo-link">
-                    <span class="fill-pill">[FILL: Code upon request]</span>
-                    <a href="#contact" class="code-req-link">Request walkthrough &rarr;</a>
-                  </div>
-                </div>
-
-                <div id="p4-details" class="read-more-content" hidden>
-                  <p>
-                    Configured static IP Ethernet interface, configured broadcast and unicast UDP parameters, and tuned PTP time synchronization for multi-sensor hardware setups. Validated PointCloud2 message formats and coordinate frame transformations in RViz2.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-          </div>
-
-          <!-- Slide progress track -->
-          <div class="gallery-progress-bar" aria-hidden="true">
-            <div class="gallery-progress-fill" id="gallery-progress-fill"></div>
-          </div>
-
-          <!-- Projects Direct Slide Jump Selectors -->
-          <div class="projects-dots" id="projects-dots" aria-label="Projects slide selectors">
-            <button class="dot-btn active" data-slide="0" aria-label="Jump to Full Sim Navigation Stack"></button>
-            <button class="dot-btn" data-slide="1" aria-label="Jump to 18-DOF Hexapod"></button>
-            <button class="dot-btn" data-slide="2" aria-label="Jump to EMO-Style Desktop Robot"></button>
-            <button class="dot-btn" data-slide="3" aria-label="Jump to Livox Mid-360S Bring-Up"></button>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 04 SKILLS ================= -->
-      <section class="content-section" id="skills" aria-labelledby="skills-heading">
-        <div class="content-panel">
-          <div class="section-label">03 / Competencies</div>
-          <h2 class="section-heading" id="skills-heading">Technical Skills</h2>
-
-          <p class="section-summary">
-            Transparently categorized by daily operational competency, hands-on working knowledge, and active learning frontiers.
-          </p>
-
-          <!-- Interactive Sliding Segmented Skill Deck (Non-boxy fluid switcher) -->
-          <div class="skills-sliding-container">
-            <div class="skills-segmented-bar" role="tablist" aria-label="Technical skills honesty tiers">
-              <button class="skill-seg-btn active" role="tab" aria-selected="true" data-tier="daily">
-                <span class="seg-status-dot dot-daily"></span>
-                <span>Daily Use</span>
-                <span class="seg-count">8</span>
-              </button>
-              <button class="skill-seg-btn" role="tab" aria-selected="false" data-tier="working">
-                <span class="seg-status-dot dot-working"></span>
-                <span>Working Knowledge</span>
-                <span class="seg-count">4</span>
-              </button>
-              <button class="skill-seg-btn" role="tab" aria-selected="false" data-tier="learning">
-                <span class="seg-status-dot dot-learning"></span>
-                <span>Active Frontiers</span>
-                <span class="seg-count">3</span>
-              </button>
-            </div>
-
-            <div class="skills-deck-viewport">
-              <!-- Tier 1: Daily Use -->
-              <div class="skill-tier-panel active" id="tier-daily" role="tabpanel">
-                <div class="tier-badge-row">
-                  <span class="tier-level-badge level-operational">OPERATIONAL MASTERY &bull; PRODUCTION READY</span>
-                  <span class="tier-subtext">Deterministic node architecture, simulation, and hardware bring-up</span>
-                </div>
-
-                <!-- Sliding Competency Stream -->
-                <div class="skills-fluid-stream">
-                  <div class="skill-stream-row active" data-skill="ros2" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">ROS 2 (Humble)</span>
-                        <span class="sk-tag">Core Architecture</span>
-                      </div>
-                      <span class="sk-percent">95%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-95"></div></div>
-                    <p class="sk-detail-text">DDS middleware (Cyclone/FastDDS), managed lifecycle nodes, custom msg/srv interfaces, rclcpp/rclpy multi-threaded executors.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="nav2" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Nav2 (Navigation 2)</span>
-                        <span class="sk-tag">Autonomous Nav</span>
-                      </div>
-                      <span class="sk-percent">92%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-92"></div></div>
-                    <p class="sk-detail-text">Behavior trees, global/local costmap2d, dynamic recovery plugins, waypoint follower, controller server tuning.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="slam" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">SLAM Toolbox</span>
-                        <span class="sk-tag">Mapping &amp; Pose</span>
-                      </div>
-                      <span class="sk-percent">90%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-90"></div></div>
-                    <p class="sk-detail-text">Online synchronous mapping, sparse pose-graph optimization, loop-closure validation, lifelong mapping modes.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="gazebo" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Gazebo &amp; RViz2</span>
-                        <span class="sk-tag">Simulation</span>
-                      </div>
-                      <span class="sk-percent">94%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-94"></div></div>
-                    <p class="sk-detail-text">URDF/Xacro physics validation, differential drive &amp; sensor plugins, coordinate frame TF2 tree visualization at 60 FPS.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="cpp" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Modern C++ (C++17)</span>
-                        <span class="sk-tag">Real-Time Core</span>
-                      </div>
-                      <span class="sk-percent">88%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-88"></div></div>
-                    <p class="sk-detail-text">Deterministic robotics routines, RAII memory management, zero-overhead smart pointers, low-latency node execution.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="python" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Python 3</span>
-                        <span class="sk-tag">Prototyping</span>
-                      </div>
-                      <span class="sk-percent">92%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-92"></div></div>
-                    <p class="sk-detail-text">ROS 2 rclpy nodes, sensor telemetry parsing, kinematic transform math, spatial matrix computations.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="linux" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Linux (Ubuntu 22.04 LTS)</span>
-                        <span class="sk-tag">Operating Env</span>
-                      </div>
-                      <span class="sk-percent">95%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-95"></div></div>
-                    <p class="sk-detail-text">Bash automation, udev hardware peripheral rules, socket networking, systemd service deployment for robots.</p>
-                  </div>
-
-                  <div class="skill-stream-row" data-skill="lidar" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">LiDAR (2D &amp; Livox Mid-360S)</span>
-                        <span class="sk-tag">Perception</span>
-                      </div>
-                      <span class="sk-percent">89%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-89"></div></div>
-                    <p class="sk-detail-text">3D point cloud pipelines, coordinate transform frames (base_link &rarr; laser_frame), UDP driver bring-up, IMU sync.</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tier 2: Working Knowledge -->
-              <div class="skill-tier-panel" id="tier-working" role="tabpanel">
-                <div class="tier-badge-row">
-                  <span class="tier-level-badge level-applied">PRACTICAL INTEGRATION &bull; APPLIED SYSTEM LEVEL</span>
-                  <span class="tier-subtext">Embedded firmware, kinematics, and hardware drivers</span>
-                </div>
-                <div class="skills-fluid-stream">
-                  <div class="skill-stream-row active" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Embedded Mechatronics</span>
-                        <span class="sk-tag">Hardware</span>
-                      </div>
-                      <span class="sk-percent">82%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-82"></div></div>
-                    <p class="sk-detail-text">ESP32 microcontrollers, bus servo communication, I2S microphone sampling, SPI display pipelines, UART telemetry.</p>
-                  </div>
-                  <div class="skill-stream-row" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">ESP-SR &amp; Edge Audio</span>
-                        <span class="sk-tag">Embedded AI</span>
-                      </div>
-                      <span class="sk-percent">80%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-80"></div></div>
-                    <p class="sk-detail-text">On-chip neural wake-word detection model integration, non-blocking dual-core FreeRTOS task scheduling.</p>
-                  </div>
-                  <div class="skill-stream-row" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">URDF / Xacro Modeling</span>
-                        <span class="sk-tag">Kinematics</span>
-                      </div>
-                      <span class="sk-percent">85%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-85"></div></div>
-                    <p class="sk-detail-text">Parametric robot joints, collision hulls, inertia tensors, transmission tags for Gazebo control plugins.</p>
-                  </div>
-                  <div class="skill-stream-row" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Multi-Sensor Odometry</span>
-                        <span class="sk-tag">Estimation</span>
-                      </div>
-                      <span class="sk-percent">83%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-83"></div></div>
-                    <p class="sk-detail-text">Wheel encoder odometry fused with 6-axis IMU via robot_localization Extended Kalman Filter (EKF).</p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tier 3: Active Frontiers -->
-              <div class="skill-tier-panel" id="tier-learning" role="tabpanel">
-                <div class="tier-badge-row">
-                  <span class="tier-level-badge level-frontier">RESEARCH &bull; TARGET ARCHITECTURES</span>
-                  <span class="tier-subtext">Next-generation multi-limbed &amp; aerial autonomous frontiers</span>
-                </div>
-                <div class="skills-fluid-stream">
-                  <div class="skill-stream-row active" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Humanoid Bipedal Control</span>
-                        <span class="sk-tag">Next Target</span>
-                      </div>
-                      <span class="sk-percent">70%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-70"></div></div>
-                    <p class="sk-detail-text">Scaling 2D navigation foundation to dynamic bipedal balance, zero-moment point (ZMP), and multi-joint whole-body trajectory control.</p>
-                  </div>
-                  <div class="skill-stream-row" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Aerial Robotics (Drones)</span>
-                        <span class="sk-tag">Flight Autonomy</span>
-                      </div>
-                      <span class="sk-percent">68%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-68"></div></div>
-                    <p class="sk-detail-text">PX4 flight stack architecture, 3D geometric trajectory generation, visual-inertial odometry (VIO) in GPS-denied environments.</p>
-                  </div>
-                  <div class="skill-stream-row" tabindex="0">
-                    <div class="sk-row-header">
-                      <div class="sk-row-title-wrap">
-                        <span class="sk-accent-beam"></span>
-                        <span class="sk-name">Robotics Cybersecurity</span>
-                        <span class="sk-tag">Network Integrity</span>
-                      </div>
-                      <span class="sk-percent">65%</span>
-                    </div>
-                    <div class="sk-meter-track"><div class="sk-meter-bar fill-65"></div></div>
-                    <p class="sk-detail-text">DDS transport security (SROS 2), network isolation, encrypted telemetry channels, preventing rogue node injection.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 04 NEXT ================= -->
-      <section class="content-section" id="next" aria-labelledby="next-heading">
-        <div class="content-panel">
-          <div class="section-label">04 / Trajectory</div>
-          <h2 class="section-heading" id="next-heading">What I'm Working Toward</h2>
-
-          <!-- 2-3 lines concise trajectory -->
-          <p class="section-summary">
-            Developing deeper knowledge in humanoid control and aerial robotics (drones). Committed to bridging proven autonomous navigation with physical systems to build robots that operate reliably in complex environments.
-          </p>
-
-          <!-- Interactive Stepped Trajectory Roadmap (Fluid Seamless Timeline) -->
-          <div class="trajectory-interactive-flow">
-            <div class="trajectory-track-line" aria-hidden="true">
-              <div class="track-progress-glow"></div>
-            </div>
-
-            <!-- Milestone 1 -->
-            <div class="trajectory-step active" data-step="1" tabindex="0">
-              <div class="step-indicator">
-                <span class="step-num">01</span>
-                <span class="step-pulse"></span>
-              </div>
-              <div class="step-content">
-                <div class="step-badge-row">
-                  <span class="step-tag tag-validated">PROVEN FOUNDATION</span>
-                  <span class="step-status">Active Production Core</span>
-                </div>
-                <h3 class="step-title">Autonomous Navigation &amp; SLAM</h3>
-                <p class="step-desc">
-                  Deterministic spatial perception, costmap management, dynamic recovery, and obstacle avoidance validated from Gazebo simulation to hardware bring-up.
-                </p>
-                <div class="step-sliding-drawer">
-                  <span class="tech-chip">Nav2 Behavior Trees</span>
-                  <span class="tech-chip">SLAM Toolbox</span>
-                  <span class="tech-chip">ROS 2 Humble</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Milestone 2 -->
-            <div class="trajectory-step" data-step="2" tabindex="0">
-              <div class="step-indicator">
-                <span class="step-num">02</span>
-                <span class="step-pulse"></span>
-              </div>
-              <div class="step-content">
-                <div class="step-badge-row">
-                  <span class="step-tag tag-frontier">PRIMARY HORIZON</span>
-                  <span class="step-status">Active Research</span>
-                </div>
-                <h3 class="step-title">Humanoid Robotics &amp; Dynamic Locomotion</h3>
-                <p class="step-desc">
-                  Extending proven planar navigation to high-DOF bipedal kinematics, spatial posture balance, whole-body perception, and humanoid operational autonomy.
-                </p>
-                <div class="step-sliding-drawer">
-                  <span class="tech-chip">Bipedal Kinematics</span>
-                  <span class="tech-chip">Balance Control</span>
-                  <span class="tech-chip">Whole-Body Telemetry</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Milestone 3 -->
-            <div class="trajectory-step" data-step="3" tabindex="0">
-              <div class="step-indicator">
-                <span class="step-num">03</span>
-                <span class="step-pulse"></span>
-              </div>
-              <div class="step-content">
-                <div class="step-badge-row">
-                  <span class="step-tag tag-expansion">SPATIAL EXPANSION</span>
-                  <span class="step-status">Exploratory Focus</span>
-                </div>
-                <h3 class="step-title">Aerial Robotics &amp; Drones</h3>
-                <p class="step-desc">
-                  Exploring 3D geometric path planning, visual-inertial odometry (VIO), and PX4 flight stack autonomy for agile unmanned aerial vehicles.
-                </p>
-                <div class="step-sliding-drawer">
-                  <span class="tech-chip">PX4 Flight Stack</span>
-                  <span class="tech-chip">3D Trajectory Planning</span>
-                  <span class="tech-chip">VIO Odometry</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 06 CONTACT ================= -->
-      <section class="content-section" id="contact" aria-labelledby="contact-heading">
-        <div class="content-panel contact-panel">
-          <div class="section-label">05 / Connect</div>
-          <h2 class="section-heading" id="contact-heading">Get in Touch</h2>
-
-          <p class="section-summary">
-            Open to technical discussions with robotics recruiters, hiring managers, and research labs building autonomous systems.
-          </p>
-
-          <!-- Integrated Sliding Communication Terminal (Zero Box Containers) -->
-          <div class="contact-terminal">
-            
-            <!-- Email Channel -->
-            <div class="contact-channel-row" tabindex="0">
-              <div class="channel-accent-slider"></div>
-              <div class="contact-card-icon" aria-hidden="true">&#9993;</div>
-              <div class="contact-card-body">
-                <span class="contact-card-label">Direct Email</span>
-                <a href="mailto:adityadahake18@gmail.com" class="contact-card-val" id="email-link">adityadahake18@gmail.com</a>
-              </div>
-              <button class="copy-btn" id="copy-email-btn" aria-label="Copy email address to clipboard">Copy</button>
-            </div>
-
-            <!-- LinkedIn Channel -->
-            <div class="contact-channel-row" tabindex="0">
-              <div class="channel-accent-slider"></div>
-              <div class="contact-card-icon" aria-hidden="true">&#9881;</div>
-              <div class="contact-card-body">
-                <span class="contact-card-label">LinkedIn</span>
-                <a href="https://www.linkedin.com/in/aditya-dahake-a10a3a279" target="_blank" rel="noopener noreferrer" class="contact-card-val">
-                  linkedin.com/in/aditya-dahake-a10a3a279 &rarr;
-                </a>
-              </div>
-            </div>
-
-            <!-- GitHub Channel -->
-            <div class="contact-channel-row" tabindex="0">
-              <div class="channel-accent-slider"></div>
-              <div class="contact-card-icon" aria-hidden="true">&#128187;</div>
-              <div class="contact-card-body">
-                <span class="contact-card-label">GitHub</span>
-                <a href="https://github.com/AdityaDahake18" target="_blank" rel="noopener noreferrer" class="contact-card-val">
-                  github.com/AdityaDahake18 &rarr;
-                </a>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Toast notification for copy button -->
-          <div id="copy-toast" class="copy-toast" role="status" aria-live="polite">Email copied to clipboard!</div>
-        </div>
-      </section>
-
-      <!-- Minimalist Editorial Footer -->
-      <footer class="site-footer">
-        <div class="footer-content">
-          <p class="footer-copy">
-            &copy; 2026 Aditya Dahake &bull; Robotics &amp; Automation. All rights reserved.
-          </p>
-          <p class="footer-credit">
-            3D Humanoid Model: Open Source Mesh &bull; Licensed under Apache 2.0 / MIT.
-            <a href="assets/CREDITS.md" class="footer-link">Asset Credits</a>
-          </p>
-        </div>
-      </footer>
-
-    </main>
+    <p class="ft">© 2026 Aditya Dahake &bull; Robotics &amp; Cyber-Physical Systems</p>
   </div>
+</section>
 
-  <!-- Main Engine and Interaction Scripts -->
-  <script src="js/engine.js"></script>
-  <script src="js/main.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* Heading Word Splitter for Staggered Editorial Reveal */
+$$('[data-s]').forEach(h => {
+  let i = 0;
+  const f = n => [...n.childNodes].forEach(c => {
+    if (c.nodeType == 3) {
+      const fr = document.createDocumentFragment();
+      c.textContent.split(/(\s+)/).forEach(t => {
+        if (!t.trim()) { fr.append(t); return; }
+        const w = document.createElement('span'), s = document.createElement('span');
+        w.className = 'w';
+        s.textContent = t;
+        s.style.transitionDelay = (i++ * 70 + 150) + 'ms';
+        w.append(s);
+        fr.append(w);
+      });
+      c.replaceWith(fr);
+    } else f(c);
+  });
+  f(h);
+});
+
+/* Tech Chip animation delays */
+$$('.ch').forEach(c => [...c.children].forEach((s, i) => s.style.animationDelay = (i * 65 + 240) + 'ms'));
+
+/* Continuous Dynamic Hero Specialization Rotator */
+const heroTransitions = [
+  {
+    role: "Robotics Engineer",
+    focus: "Autonomous Navigation",
+    sub: "Nav2 behavior trees, costmaps, dynamic obstacle avoidance & recovery behaviors"
+  },
+  {
+    role: "Perception & SLAM",
+    focus: "3D LiDAR & State Estimation",
+    sub: "Livox Mid-360S point clouds, EKF multi-sensor odometry & TF2 coordinate trees"
+  },
+  {
+    role: "Cybersecurity & Hacking",
+    focus: "Robot Cybersecurity & Ethical Hacking",
+    sub: "SROS 2 PKI keystores, DDS network sniffing, node injection defense & penetration testing"
+  },
+  {
+    role: "Humanoid Research",
+    focus: "Humanoid Locomotion & PX4 Drones",
+    sub: "High-DOF bipedal kinematics, Zero-Moment Point (ZMP) stability & GPS-denied flight"
+  }
+];
+
+let heroIdx = 0;
+const roleBadge = $('#badge-rotator');
+const transFocus = $('#trans-rotator');
+const transSub = $('#trans-sub');
+const transPills = $$('.trans-step-dot');
+
+function rotateHeroSpecialization() {
+  heroIdx = (heroIdx + 1) % heroTransitions.length;
+  const item = heroTransitions[heroIdx];
+
+  if (roleBadge) {
+    roleBadge.style.opacity = 0;
+    roleBadge.style.transform = 'translateY(-6px)';
+  }
+  if (transFocus) {
+    transFocus.style.opacity = 0;
+    transFocus.style.transform = 'translateY(6px)';
+  }
+  if (transSub) {
+    transSub.style.opacity = 0;
+  }
+
+  setTimeout(() => {
+    if (roleBadge) {
+      roleBadge.textContent = item.role;
+      roleBadge.style.opacity = 1;
+      roleBadge.style.transform = 'none';
+    }
+    if (transFocus) {
+      transFocus.textContent = item.focus;
+      transFocus.style.opacity = 1;
+      transFocus.style.transform = 'none';
+    }
+    if (transSub) {
+      transSub.textContent = item.sub;
+      transSub.style.opacity = 1;
+    }
+    transPills.forEach((p, idx) => p.classList.toggle('active', idx === heroIdx));
+  }, 260);
+}
+
+setInterval(rotateHeroSpecialization, 2600);
+
+/* Stage Poses and Section Coordination */
+const P = {
+  hero:      { s: 'R', t: "Hi, I'm the demo unit." },
+  about:     { s: 'L', t: 'Scanning the profile...' },
+  cyber:     { s: 'R', t: 'Hardening the network...' },
+  frontiers: { s: 'L', t: 'Analyzing research frontiers...' },
+  skills:    { s: 'R', t: 'Loading the skill stack...' },
+  contact:   { s: 'L', t: 'Ready when you are.' }
+};
+
+let pose = P.hero, id = 'hero';
+const stage = $('#stage'), tag = $('#tag'), nav = $$('nav a');
+
+/* Interactive Robot Motion & Visual Expressions */
+function triggerRobotMotion(type) {
+  const rb = $('#rb');
+  const eyes = $('.rb-eyes');
+  if (!rb) return;
+
+  rb.classList.remove('wave', 'nod');
+  if (eyes) eyes.classList.remove('scan');
+
+  // Trigger reflow to restart CSS animation cleanly
+  void rb.offsetWidth;
+
+  if (type === 'wave') {
+    rb.classList.add('wave');
+    if (eyes) {
+      eyes.classList.add('scan');
+      setTimeout(() => eyes.classList.remove('scan'), 1000);
+    }
+    setTimeout(() => rb.classList.remove('wave'), 1650);
+  } else if (type === 'scan') {
+    if (eyes) {
+      eyes.classList.add('scan');
+      setTimeout(() => eyes.classList.remove('scan'), 1000);
+    }
+  } else if (type === 'nod') {
+    rb.classList.add('nod');
+    setTimeout(() => rb.classList.remove('nod'), 1150);
+  }
+}
+
+function set(n) {
+  if (n === id || !P[n]) return;
+  const q = P[n];
+  if (!RM && q.s !== pose.s) {
+    document.body.classList.add('walk');
+    document.body.classList.toggle('rev', q.s == 'L');
+    setTimeout(() => document.body.classList.remove('walk'), 1500);
+  }
+  pose = q;
+  id = n;
+  stage.classList.toggle('L', q.s == 'L');
+  tag.style.opacity = 0;
+  setTimeout(() => {
+    tag.textContent = q.t;
+    tag.style.opacity = 1;
+    // Interactive robot motion tied to the script prompt
+    if (n === 'hero' || n === 'contact') {
+      triggerRobotMotion('wave');
+    } else if (n === 'about' || n === 'frontiers' || n === 'cyber') {
+      triggerRobotMotion('scan');
+    } else if (n === 'skills') {
+      triggerRobotMotion('nod');
+    }
+  }, 350);
+  nav.forEach(a => a.classList.toggle('on', a.hash == '#' + n));
+  const el = $(`#${n}`);
+  if (el) el.classList.add('in');
+}
+
+/* Scroll Intersection Observers */
+const rv = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('in')), { threshold: 0.15 });
+const md = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && set(e.target.id)), { rootMargin: '-45% 0px -45% 0px' });
+$$('.s').forEach(s => { rv.observe(s); md.observe(s); });
+
+/* Deep-link & Smooth Scroll Navigation Handler */
+function handleInitialHash() {
+  const hash = location.hash ? location.hash.slice(1) : null;
+  const params = new URLSearchParams(location.search);
+  const targetId = params.get('section') || hash;
+  if (targetId && $(`#${targetId}`)) {
+    const el = $(`#${targetId}`);
+    const bt = $('#boot');
+    if (bt) bt.remove();
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: 'auto', block: 'start' });
+      el.classList.add('in');
+      set(targetId);
+    });
+  }
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', handleInitialHash);
+} else {
+  handleInitialHash();
+}
+window.addEventListener('load', handleInitialHash);
+
+/* Smooth Scroll on Nav Links & CTA Buttons */
+$$('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const hash = a.getAttribute('href');
+    if (!hash || hash === '#') return;
+    const target = $(hash);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.pushState(null, null, hash);
+    }
+  });
+});
+
+/* Interactive Tabs */
+const tb = $$('.tb'), pn = $$('.pn'), ind = $('#ind');
+tb.forEach((b, i) => b.onclick = () => {
+  tb.forEach(x => x.classList.toggle('on', x === b));
+  pn.forEach((p, j) => p.classList.toggle('on', j == i));
+  ind.style.width = b.offsetWidth + 'px';
+  ind.style.transform = `translateX(${b.offsetLeft}px)`;
+});
+const fixTab = () => { const active = $('.tb.on'); if (active) active.click(); };
+addEventListener('load', fixTab);
+if (document.fonts) document.fonts.ready.then(fixTab);
+
+/* Top Reading Progress Bar */
+addEventListener('scroll', () => {
+  const scrollTotal = document.documentElement.scrollHeight - innerHeight;
+  if (scrollTotal > 0) {
+    $('#pg').style.transform = `scaleX(${scrollY / scrollTotal})`;
+  }
+}, { passive: true });
+
+/* Copy Email Button */
+$('#cp').onclick = async e => {
+  const b = e.target;
+  try {
+    await navigator.clipboard.writeText('adityadahake18@gmail.com');
+    b.textContent = 'Copied';
+  } catch {
+    b.textContent = 'adityadahake18@gmail.com';
+  }
+  setTimeout(() => b.textContent = 'Copy', 1800);
+};
+
+/* Canvas Networks, Particle Trail, Real Robot Parallax, & Crystal Shell FX */
+(() => {
+  const fx = $('#fx'), nt = $('#net');
+  const c = fx.getContext('2d'), n = nt.getContext('2d');
+  const rb = $('#rb'), hx = $('#hx'), hs = $('#hs'), cu = $('#cu'), cr = $('#cr');
+  const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  let w, h, dp, pts = [], trl = [], sk = [], ph = 0, t0 = 0, X0 = 0, Y0 = 0;
+  let px = -999, py = -999, ax = 0, ay = 0, lid = '';
+
+  function rs() {
+    dp = Math.min(devicePixelRatio || 1, 2);
+    w = innerWidth;
+    h = innerHeight;
+    [fx, nt].forEach(e => { e.width = w * dp; e.height = h * dp; });
+    c.setTransform(dp, 0, 0, dp, 0, 0);
+    n.setTransform(dp, 0, 0, dp, 0, 0);
+    pts = Array.from({ length: Math.min(80, (w / 18) | 0) }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: Math.random() - 0.5,
+      vy: Math.random() - 0.5
+    }));
+  }
+  rs();
+  addEventListener('resize', rs);
+
+  addEventListener('pointermove', e => {
+    px = e.clientX;
+    py = e.clientY;
+    if (fine && !RM) trl.push({ x: px, y: py, l: 1 });
+    hx.textContent = `X ${String(px | 0).padStart(4, '0')}  Y ${String(py | 0).padStart(4, '0')}`;
+    
+    // Magnetic pull on interactive buttons
+    $$('.b').forEach(b => {
+      const r = b.getBoundingClientRect(),
+            dx = px - r.left - r.width / 2,
+            dy = py - r.top - r.height / 2;
+      b.style.transform = Math.hypot(dx, dy) < 85 ? `translate(${dx * 0.28}px, ${dy * 0.28}px)` : '';
+    });
+  }, { passive: true });
+
+  document.addEventListener('pointerover', e => {
+    cr.classList.toggle('h', !!e.target.closest('a, button, #rb, .tb, .cyber-card, .tier'));
+  });
+
+  /* Crystal Kite Geometry */
+  function kite(x, y, s, a, al) {
+    c.save();
+    c.translate(x, y);
+    c.rotate(a);
+    c.beginPath();
+    c.moveTo(0, -s);
+    c.lineTo(s * 0.42, 0);
+    c.lineTo(0, s * 0.75);
+    c.lineTo(-s * 0.42, 0);
+    c.closePath();
+    const g = c.createLinearGradient(0, -s, 0, s);
+    g.addColorStop(0, `rgba(255,255,255,${0.85 * al})`);
+    g.addColorStop(1, `rgba(77,225,255,${0.35 * al})`);
+    c.fillStyle = g;
+    c.fill();
+    c.strokeStyle = `rgba(200,245,255,${al})`;
+    c.lineWidth = 1;
+    c.stroke();
+    c.restore();
+  }
+
+  /* Click Interaction on Real Robot Unit: Wave Greeting & Crystal Defense */
+  let rbClicks = 0;
+  rb.addEventListener('click', () => {
+    rbClicks++;
+    if (rbClicks % 2 === 1) {
+      // Wave & Eye scan greeting
+      triggerRobotMotion('wave');
+      tag.style.opacity = 1;
+      tag.textContent = "Greetings! Demo unit online 👋";
+      setTimeout(() => {
+        if (!ph && tag.textContent === "Greetings! Demo unit online 👋") {
+          tag.textContent = pose.t;
+        }
+      }, 2600);
+    } else {
+      // Crystal shell defense
+      if (ph || RM) return;
+      const r = rb.getBoundingClientRect();
+      X0 = r.left + r.width / 2;
+      Y0 = r.top + r.height / 2;
+      sk = Array.from({ length: 28 }, (_, i) => {
+        const a = (i / 28) * 6.283,
+              b = Math.random() * 6.283,
+              d = 0.6 + Math.random();
+        return {
+          a,
+          r0: Math.random() * 6.28,
+          tx: X0 + Math.cos(a) * r.height * 0.3,
+          ty: Y0 + Math.sin(a) * r.height * 0.46,
+          sx: X0 + Math.cos(b) * w * d,
+          sy: Y0 + Math.sin(b) * h * d,
+          z: 12 + Math.random() * 14
+        };
+      });
+      ph = 1;
+      t0 = performance.now();
+      rb.classList.add('lk');
+      tag.style.opacity = 1;
+      tag.textContent = 'Crystal shell engaged';
+    }
+  });
+
+  rb.addEventListener('mouseenter', () => {
+    if (!ph) {
+      const eyes = $('.rb-eyes');
+      if (eyes) eyes.classList.add('scan');
+      setTimeout(() => { if (eyes) eyes.classList.remove('scan'); }, 900);
+    }
+  });
+
+  /* Animation Frame Loop */
+  function fr(now) {
+    n.clearRect(0, 0, w, h);
+    c.clearRect(0, 0, w, h);
+
+    // 1. Constellation Network Canvas
+    if (!RM) {
+      pts.forEach((p, i) => {
+        p.x += p.vx * 0.38;
+        p.y += p.vy * 0.38;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+
+        const dx = px - p.x, dy = py - p.y, d = Math.hypot(dx, dy);
+        if (d < 220) {
+          p.x += dx * 0.012;
+          p.y += dy * 0.012;
+          n.strokeStyle = `rgba(77,225,255,${0.5 * (1 - d / 220)})`;
+          n.beginPath();
+          n.moveTo(p.x, p.y);
+          n.lineTo(px, py);
+          n.stroke();
+        }
+
+        for (let j = i + 1; j < pts.length; j++) {
+          const q = pts[j], e = Math.hypot(p.x - q.x, p.y - q.y);
+          if (e < 110) {
+            n.strokeStyle = `rgba(77,225,255,${0.15 * (1 - e / 110)})`;
+            n.beginPath();
+            n.moveTo(p.x, p.y);
+            n.lineTo(q.x, q.y);
+            n.stroke();
+          }
+        }
+
+        n.fillStyle = 'rgba(120,230,255,.6)';
+        n.fillRect(p.x - 1, p.y - 1, 2, 2);
+      });
+    }
+
+    // 2. Cursor Trail FX
+    trl.forEach(t => {
+      t.l -= 0.045;
+      c.fillStyle = `rgba(77,225,255,${t.l * 0.55})`;
+      c.beginPath();
+      c.arc(t.x, t.y, 1 + t.l * 5, 0, 6.283);
+      c.fill();
+    });
+    trl = trl.filter(t => t.l > 0);
+
+    // 3. Real Robot 3D Perspective Parallax & Breathing
+    if (px > 0 && !RM) {
+      const tiltY = (px / w - 0.5) * 16;
+      const tiltX = -(py / h - 0.5) * 8;
+      const breathe = Math.sin(now / 1300) * 4;
+      rb.style.transform = `perspective(900px) rotateY(${tiltY}deg) rotateX(${tiltX}deg) translateY(${breathe}px)`;
+    }
+
+    // 4. Crystal Defense Shell Sequence
+    if (ph) {
+      const e = now - t0, H = rb.getBoundingClientRect().height;
+      if (e < 1900) {
+        const k = e < 1100 ? 1 - Math.pow(1 - e / 1100, 3) : 1;
+        const al = e < 1100 ? k : 0.6 + 0.3 * Math.sin(e / 70);
+
+        c.beginPath();
+        sk.forEach((s, i) => {
+          const x = s.sx + (s.tx - s.sx) * k,
+                y = s.sy + (s.ty - s.sy) * k;
+          i ? c.lineTo(x, y) : c.moveTo(x, y);
+        });
+        c.closePath();
+        c.fillStyle = `rgba(77,225,255,${0.1 * k})`;
+        c.fill();
+        c.strokeStyle = `rgba(200,245,255,${0.5 * k})`;
+        c.stroke();
+
+        sk.forEach((s, i) => {
+          const x = s.sx + (s.tx - s.sx) * k,
+                y = s.sy + (s.ty - s.sy) * k;
+          if (i % 4 == 0) {
+            c.beginPath();
+            c.moveTo(X0, Y0);
+            c.lineTo(x, y);
+            c.strokeStyle = `rgba(200,245,255,${0.12 * k})`;
+            c.stroke();
+          }
+          kite(x, y, s.z * k + 2, s.a + 1.571 + (1 - k) * s.r0 * 2, al);
+        });
+      } else {
+        if (ph == 1) {
+          ph = 3;
+          rb.classList.remove('lk');
+          rb.classList.add('pop');
+          setTimeout(() => rb.classList.remove('pop'), 900);
+          tag.textContent = 'Shell released';
+          sk.forEach(s => {
+            s.x = s.tx;
+            s.y = s.ty;
+            s.vx = (s.tx - X0) / H * (8 + Math.random() * 10);
+            s.vy = (s.ty - Y0) / H * (8 + Math.random() * 10) - 3;
+            s.rt = s.a + 1.571;
+            s.sp = (Math.random() - 0.5) * 0.3;
+          });
+        }
+        const b = (e - 1900) / 1100;
+        if (b < 0.3) {
+          c.fillStyle = `rgba(220,250,255,${0.35 * (1 - b / 0.3)})`;
+          c.beginPath();
+          c.arc(X0, Y0, H * 0.6, 0, 6.283);
+          c.fill();
+        }
+        sk.forEach(s => {
+          s.vx *= 0.985;
+          s.vy += 0.22;
+          s.x += s.vx;
+          s.y += s.vy;
+          s.rt += s.sp;
+          kite(s.x, s.y, s.z, s.rt, Math.max(0, 1 - b));
+        });
+        if (b >= 1) ph = 0;
+      }
+    }
+
+    // 5. Dual Cursor Motion
+    if (fine) {
+      ax += (px - ax) * 0.18;
+      ay += (py - ay) * 0.18;
+      cr.style.transform = `translate(${ax}px, ${ay}px)`;
+      cu.style.transform = `translate(${px}px, ${py}px)`;
+    }
+
+    // 6. HUD Section Status Tracker
+    if (id !== lid) {
+      lid = id;
+      hs.textContent = 'SEC ' + id.toUpperCase();
+    }
+
+    requestAnimationFrame(fr);
+  }
+  requestAnimationFrame(fr);
+
+  // System Boot Animation
+  const bn = $('#bn'), bt = $('#boot');
+  const params = new URLSearchParams(location.search);
+  const hasTarget = params.get('section') || (location.hash && location.hash.length > 1);
+  if (RM || hasTarget) {
+    if (bt) bt.remove();
+    setTimeout(() => triggerRobotMotion('wave'), 600);
+  } else if (bt) {
+    let v = 0;
+    const iv = setInterval(() => {
+      v = Math.min(100, v + Math.random() * 12 + 8);
+      bn.textContent = v | 0;
+      if (v >= 100) {
+        clearInterval(iv);
+        bt.classList.add('go');
+        setTimeout(() => {
+          bt.remove();
+          triggerRobotMotion('wave');
+        }, 750);
+      }
+    }, 28);
+  }
+
+  // Hover Letter Scramble on Navigation & Brand
+  $$('nav a, .lg').forEach(a => {
+    const o = a.textContent;
+    a.addEventListener('mouseenter', () => {
+      let k = 0;
+      const t = setInterval(() => {
+        a.textContent = [...o].map((ch, i) => i < k || ch == ' ' ? ch : 'ABCDEFGHJKLMNPQRSTUVWXYZ01'[Math.random() * 26 | 0]).join('');
+        if (++k > o.length) {
+          a.textContent = o;
+          clearInterval(t);
+        }
+      }, 35);
+    });
+  });
+})();
+</script>
 </body>
 </html>
